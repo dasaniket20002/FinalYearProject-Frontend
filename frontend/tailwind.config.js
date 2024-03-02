@@ -9,10 +9,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'blur-transp': 'rgba(255, 255, 255, 0.1)'
+        'blur-transp': 'rgba(255, 255, 255, 0.1)',
       },
       fontFamily: {
-        'montserrat': ['"Montserrat"', '"sans-serif"']
+        'montserrat': ['"Montserrat"', '"sans-serif"'],
       },
       keyframes: {
         'swiper-kf': {
@@ -25,10 +25,15 @@ module.exports = {
         }
       },
       animation: {
-        'swiper': 'swiper-kf 30s linear infinite backwards'
+        'swiper': 'swiper-kf var(--speed) linear infinite backwards',
+      },
+      boxShadow: {
+        'vignette': '0 0 50px 60px rgba(0,0,0,1) inset',
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-animation-delay"),
+  ],
 }
 
