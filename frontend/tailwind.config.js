@@ -28,12 +28,10 @@ module.exports = {
         'swiper': 'swiper-kf var(--speed) linear infinite backwards',
       },
       boxShadow: {
-        'vignette': '0 0 50px 60px rgba(0,0,0,1) inset',
+        'vignette': '0 0 80px 80px rgba(0,0,0,1) inset',
       }
     },
   },
-  plugins: [
-    require("tailwindcss-animation-delay"),
-  ],
+  plugins: [],
 }
 

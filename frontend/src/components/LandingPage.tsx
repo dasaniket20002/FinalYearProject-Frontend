@@ -6,12 +6,12 @@ const LandingPage = () => {
     return (
         <div className='h-[calc(100vh-8rem)] grid grid-rows-3 overflow-hidden'>
             <VideoScrollBanner />
-            <VideoScrollBanner animationSpeed={170} />
+            <VideoScrollBanner animationSpeed={170} translateElement />
         </div>
     )
 }
 
-const VideoScrollBanner = (props: { animationSpeed?: number }) => {
+const VideoScrollBanner = (props: { animationSpeed?: number, translateElement?: boolean }) => {
 
     const randomNumbersInRange: number[] = getUniqueRandomNumbers(1, 13, 6);
 
@@ -30,8 +30,8 @@ const VideoScrollBanner = (props: { animationSpeed?: number }) => {
     }, [props.animationSpeed]);
 
     return (
-        <div ref={containerRef} className="h-full w-full relative overflow-hidden">
-            <div className="w-[calc(2*6*(24rem+1.25rem))] h-full flex">
+        <div ref={containerRef} className='h-full w-full relative overflow-hidden'>
+            <div className={`w-[calc(2*6*(24rem+1.25rem))] h-full flex ${props.translateElement ? '-translate-x-1/3' : 'translate-x-0'}`}>
                 <section className='h-full flex gap-5 animate-swiper'>
                     {videoElements.map((elem) => (elem))}
                 </section>
