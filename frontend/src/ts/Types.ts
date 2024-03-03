@@ -31,3 +31,9 @@ export type Navigator_NavProps = {
     LinkToAboutUs: string,
     LinkToSignUp: string
 }
+
+export type TranslateHoverElementType = {
+    elementInside: JSX.Element,
+    innerChildUnderlineElement?: JSX.Element,
+    outerChildUnderlineElement?: JSX.Element
+}

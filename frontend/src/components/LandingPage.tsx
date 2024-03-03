@@ -8,6 +8,7 @@ import { useGSAP } from '@gsap/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import CardElement from './CardComponent';
+import TranslateHoverElement from './TranslateHoverElement';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -60,21 +61,16 @@ const LandingPage = () => {
                         <p className='text-xl md:text-2xl font-medium text-center'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum placeat, quidem voluptate libero debitis suscipit.</p>
                     </span>
                     <button className='stagger bg-amber-600 m-4 h-full lg:h-36 self-center rounded flex items-center justify-center text-2xl md:text-4xl font-bold text-white group'>
-                        <span className='flex flex-col h-[2.25rem] md:h-[2.75rem] overflow-hidden'>
-                            <span className='transition-transform group-hover:-translate-y-1/2'>
-                                <p className='flex gap-4 items-center'>
+                        <TranslateHoverElement
+                            className='h-[2.25rem] md:h-[2.75rem]'
+                            elementInside={
+                                <>
                                     <FontAwesomeIcon icon={faAngleRight} />
                                     Sign&nbsp;Up
                                     <FontAwesomeIcon icon={faAngleLeft} />
-                                </p>
-                                <p className='flex gap-4 items-center'>
-                                    <FontAwesomeIcon icon={faAngleLeft} />
-                                    Sign&nbsp;Up
-                                    <FontAwesomeIcon icon={faAngleRight} />
-                                </p>
-                            </span>
-                        </span>
-
+                                </>
+                            }
+                        />
                     </button>
                 </CardElement>
             </div>
