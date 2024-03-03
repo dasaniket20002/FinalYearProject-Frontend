@@ -1,3 +1,7 @@
+export type LandingPage_PropsType = {
+    LinkToSignUp: string
+}
+
 export type LandingPage_VideoScrollBannerType = {
     animationDuration?: number,
     className?: string,

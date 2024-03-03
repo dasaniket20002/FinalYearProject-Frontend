@@ -1,33 +1,18 @@
 import React, { useEffect, useRef } from 'react'
 import { getUniqueRandomNumbers } from '../ts/Utils';
 import { twMerge } from 'tailwind-merge';
-import { OptionalClassnameType, LandingPage_VideoElementType, LandingPage_VideoScrollBannerType } from '../ts/Types';
+import { OptionalClassnameType, LandingPage_VideoElementType, LandingPage_VideoScrollBannerType, LandingPage_PropsType } from '../ts/Types';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import CardElement from './CardComponent';
 import TranslateHoverElement from './TranslateHoverElement';
+import { Link } from 'react-router-dom';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const LandingPage = () => {
+const LandingPage = ({ LinkToSignUp }: LandingPage_PropsType) => {
 
     const cardsContainer = useRef<HTMLDivElement>(null);
-
-    useGSAP(() => {
-        ScrollTrigger.batch(".stagger", {
-            onEnter: elements => {
-                gsap.from(elements, {
-                    autoAlpha: 0,
-                    y: 60,
-                    stagger: 0.15,
-                    delay: 0.25
-                });
-            },
-        });
-    });
 
     return (
         <>
@@ -60,7 +45,7 @@ const LandingPage = () => {
                         <hr />
                         <p className='text-xl md:text-2xl font-medium text-center'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum placeat, quidem voluptate libero debitis suscipit.</p>
                     </span>
-                    <button className='stagger bg-amber-600 m-4 h-full lg:h-36 self-center rounded flex items-center justify-center text-2xl md:text-4xl font-bold text-white group'>
+                    <Link to={LinkToSignUp} className='stagger bg-amber-600 m-4 h-full lg:h-36 self-center rounded flex items-center justify-center text-2xl md:text-4xl font-bold text-white group'>
                         <TranslateHoverElement
                             className='h-[2.25rem] md:h-[2.75rem]'
                             elementInside={
@@ -71,7 +56,7 @@ const LandingPage = () => {
                                 </>
                             }
                         />
-                    </button>
+                    </Link>
                 </CardElement>
             </div>
         </>

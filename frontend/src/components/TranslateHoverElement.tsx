@@ -7,7 +7,7 @@ const TranslateHoverElement = ({ className, elementInside, innerChildUnderlineEl
         <>
             <span className={
                 twMerge(
-                    'flex flex-col h-8 overflow-hidden',
+                    'stagger flex flex-col h-8 overflow-hidden',
                     className
                 )
             }>

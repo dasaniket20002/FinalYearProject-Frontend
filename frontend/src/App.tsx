@@ -8,6 +8,11 @@ import AboutUs from './components/AboutUs';
 import SignUp from './components/SignUp';
 import LandingPage from './components/LandingPage';
 import { grained } from './ts/grained';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 function App() {
 
@@ -29,6 +34,18 @@ function App() {
         setTimeout(() => grained('#grainedContainer', options), 150);
     }, [])
 
+    useGSAP(() => {
+        ScrollTrigger.batch(".stagger", {
+            onEnter: elements => {
+                gsap.from(elements, {
+                    autoAlpha: 0,
+                    y: 60,
+                    stagger: 0.15,
+                    delay: 0.25
+                });
+            },
+        });
+    });
 
     return (
         <div className="App bg-black min-h-screen text-white font-montserrat">
@@ -36,12 +53,12 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<Navigator LinkToHome={LinkToHome} LinkToService={LinkToService} LinkToAboutUs={LinkToAboutUs} LinkToSignUp={LinkToSignUp} />} >
-                        <Route path='/' element={<LandingPage />} />
+                        <Route path='/' element={<LandingPage LinkToSignUp={LinkToSignUp} />} />
                         <Route path={LinkToHome} element={<Home />} />
                         <Route path={LinkToService} element={<Services />} />
                         <Route path={LinkToAboutUs} element={<AboutUs />} />
-                        <Route path={LinkToSignUp} element={<SignUp />} />
                     </Route>
+                    <Route path={LinkToSignUp} element={<SignUp />} />
                 </Routes>
             </BrowserRouter>
         </div >
