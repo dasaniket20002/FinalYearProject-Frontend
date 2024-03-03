@@ -3,6 +3,8 @@ import { Link, Outlet } from "react-router-dom";
 import useWindowDimensions from '../hooks/WindowSizeHook';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faHandHoldingHeart, faHouse, faUserGroup, faUserPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
+import LogoSVG from './LogoSVG';
+import colors from 'tailwindcss/colors'
 
 interface NavProps {
     LinkToHome: string,
@@ -38,7 +40,7 @@ const Nav = (props: NavProps): JSX.Element => {
         <>
             {
                 width > 768 ?
-                    <nav className='fixed p-4 w-full grid grid-cols-5 justify-center items-center text-center font-medium z-50'>
+                    <nav className='fixed p-4 w-full grid grid-cols-5 justify-center items-center text-center font-medium z-50 bg-gradient-to-b from-black to-transparent'>
                         <Link to={props.LinkToHome} className='group relative flex flex-col justify-center items-center w-full h-full'>
                             <span className='flex flex-col h-7 overflow-hidden'>
                                 <span className='transition-all group-hover:-translate-y-1/2'>
@@ -59,7 +61,7 @@ const Nav = (props: NavProps): JSX.Element => {
                             <span className='absolute bottom-0 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-full' />
                         </Link>
 
-                        <img src={process.env.PUBLIC_URL + '/assets/logo/ShortLogo.svg'} alt="" className='place-self-center' />
+                        <LogoSVG className='place-self-center' fillColor={colors.amber['600']} />
 
                         <Link to={props.LinkToAboutUs} className='group relative flex flex-col justify-center items-center w-full h-full'>
                             <span className='flex flex-col h-7 overflow-hidden'>
@@ -83,7 +85,9 @@ const Nav = (props: NavProps): JSX.Element => {
                     </nav>
                     :
                     <nav className='fixed w-full flex items-center justify-between py-4 px-8 z-50'>
-                        <img src={process.env.PUBLIC_URL + '/assets/logo/ShortLogo.svg'} alt="" />
+
+                        <LogoSVG fillColor={colors.amber['600']} />
+
                         <button
                             className='z-50 flex flex-col items-center h-8 w-8 overflow-hidden'
                             onClick={(e) => {
@@ -147,6 +151,8 @@ const Nav = (props: NavProps): JSX.Element => {
             }
 
             <Outlet />
+
+            <footer className='h-[calc(50vh-6rem)]'>ABCD</footer>
         </>
     )
 }

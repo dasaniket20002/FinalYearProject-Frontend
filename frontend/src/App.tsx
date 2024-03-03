@@ -22,8 +22,8 @@ function App() {
             "patternWidth": 256,
             "patternHeight": 256,
             "grainOpacity": 0.1,
-            "grainDensity": 1.3,
-            "grainWidth": 1,
+            "grainDensity": 2,
+            "grainWidth": 2,
             "grainHeight": 1
         }
         setTimeout(() => grained('#grainedContainer', options), 150);
@@ -31,7 +31,7 @@ function App() {
 
 
     return (
-        <div className="App bg-black h-[200vh] text-white font-montserrat">
+        <div className="App bg-black min-h-screen text-white font-montserrat">
             <div id='grainedContainer' className='fixed w-screen h-screen pointer-events-none z-[100]' />
             <BrowserRouter>
                 <Routes>

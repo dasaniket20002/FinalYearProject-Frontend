@@ -5,22 +5,76 @@ import { OptionalClassnameType, LandingPage_VideoElementType, LandingPage_VideoS
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import useWindowDimensions from '../hooks/WindowSizeHook';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import CardElement from './CardComponent';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const LandingPage = () => {
 
-    const { width } = useWindowDimensions();
+    const cardsContainer = useRef<HTMLDivElement>(null);
+
+    useGSAP(() => {
+        ScrollTrigger.batch(".stagger", {
+            onEnter: elements => {
+                gsap.from(elements, {
+                    autoAlpha: 0,
+                    y: 60,
+                    stagger: 0.15,
+                    delay: 0.25
+                });
+            },
+        });
+    });
 
     return (
         <>
-            <div className='pt-[8rem] h-screen grid grid-rows-3 overflow-hidden'>
-                <VideoScrollBanner numberOfVideos={width < 768 ? 5 : 10} className='row-start-1 col-start-1 row-span-2' />
+            <div className='pt-[6rem] h-screen grid grid-rows-3 overflow-hidden'>
+                <VideoScrollBanner className='row-start-1 col-start-1 row-span-2' />
                 <div className='hidden md:block row-start-1 col-start-1 row-span-2 w-full h-full bg-gradient-to-r from-black to-transparent z-10' />
                 <TextScrollBanner />
             </div>
-            <div className='h-screen bg-blue-400'></div>
+            <div ref={cardsContainer} className='py-[6rem] min-h-screen px-16 min-[1900px]:px-48 grid grid-rows-3 xl:grid-rows-1 xl:grid-cols-3 gap-8 md:gap-16' >
+                <CardElement className='flex flex-col gap-8 justify-around'>
+                    <h1 className='text-4xl md:text-6xl font-bold text-center'>Lorem ipsum dolor sit amet.</h1>
+                    <hr />
+                    <p className='text-xl md:text-2xl font-medium text-center'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit cupiditate, libero exercitationem tempora corrupti facere!</p>
+                </CardElement>
+                <CardElement className='flex flex-col gap-8 justify-around'>
+                    <h1 className='text-4xl md:text-6xl font-bold text-center'>Lorem ipsum dolor sit amet.</h1>
+                    <hr />
+                    <p className='text-xl md:text-2xl font-medium text-center'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit cupiditate, libero exercitationem tempora corrupti facere!</p>
+                </CardElement>
+                <CardElement className='flex flex-col gap-8 justify-around'>
+                    <h1 className='text-4xl md:text-6xl font-bold text-center'>Lorem ipsum dolor sit amet.</h1>
+                    <hr />
+                    <p className='text-xl md:text-2xl font-medium text-center'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit cupiditate, libero exercitationem tempora corrupti facere!</p>
+                </CardElement>
+            </div>
+            <div className='h-[50vh] px-16 min-[1900px]:px-48 w-full'>
+                <CardElement className='grid grid-rows-4 lg:grid-rows-1 lg:grid-cols-3'>
+                    <span className='flex flex-col gap-4 self-center row-span-3 lg:row-span-1 lg:col-span-2'>
+                        <h1 className='text-4xl md:text-6xl font-bold text-center'>Try Our Service Now!</h1>
+                        <hr />
+                        <p className='text-xl md:text-2xl font-medium text-center'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum placeat, quidem voluptate libero debitis suscipit.</p>
+                    </span>
+                    <button className='stagger bg-amber-600 m-4 h-full lg:h-36 self-center rounded flex items-center justify-center text-2xl md:text-4xl font-bold text-white group'>
+                        {/* <p className='translate-x-4 group-hover:translate-x-0 transition-transform'>Sign&nbsp;Up</p> */}
+
+                        <span className='flex flex-col h-[2.25rem] md:h-[2.75rem] overflow-hidden'>
+                            <span className='transition-transform group-hover:-translate-y-1/2'>
+                                <p>Sign&nbsp;Up</p>
+                                <p className='flex gap-4 items-center'>
+                                    Sign&nbsp;Up
+                                    <FontAwesomeIcon icon={faAngleRight} />
+                                </p>
+                            </span>
+                        </span>
+
+                    </button>
+                </CardElement>
+            </div>
         </>
     )
 }
@@ -121,7 +175,7 @@ const TextScrollBanner = ({ className }: OptionalClassnameType) => {
                         className
                     )
                 }>
-                    Find your next <span className='font-dancing-script'>adventure</span>, no matter the <span className='font-dancing-script'>genre</span>.
+                    Find your next <span className='font-dancing-script'>adventure, </span>no matter the <span className='font-dancing-script'>genre. </span>
                 </h1>
                 <h1 className={
                     twMerge(

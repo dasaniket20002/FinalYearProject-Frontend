@@ -15,3 +15,12 @@ export type OptionalClassnameType = {
 export type MandatoryClassnameType = {
     className: string
 }
+
+export type LandingPage_CardElementType = {
+    child?: JSX.Element,
+    children?: JSX.Element[]
+}
+
+export type LogoSVG_PropType = {
+    fillColor?: string
+}
