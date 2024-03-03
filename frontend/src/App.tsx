@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Nav from './components/Nav';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -7,6 +7,7 @@ import Services from './components/Services';
 import AboutUs from './components/AboutUs';
 import SignUp from './components/SignUp';
 import LandingPage from './components/LandingPage';
+import { grained } from './ts/grained';
 
 function App() {
 
@@ -15,8 +16,23 @@ function App() {
     const LinkToAboutUs = 'aboutus';
     const LinkToSignUp = 'signup';
 
+    useEffect(() => {
+        var options = {
+            "animate": true,
+            "patternWidth": 256,
+            "patternHeight": 256,
+            "grainOpacity": 0.1,
+            "grainDensity": 1.3,
+            "grainWidth": 1,
+            "grainHeight": 1
+        }
+        setTimeout(() => grained('#grainedContainer', options), 150);
+    }, [])
+
+
     return (
         <div className="App bg-black h-[200vh] text-white font-montserrat">
+            <div id='grainedContainer' className='fixed w-screen h-screen pointer-events-none z-[100]' />
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<Nav LinkToHome={LinkToHome} LinkToService={LinkToService} LinkToAboutUs={LinkToAboutUs} LinkToSignUp={LinkToSignUp} />} >
