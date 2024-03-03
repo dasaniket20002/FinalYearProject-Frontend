@@ -28,7 +28,7 @@ module.exports = {
         'swiper': 'swiper-kf var(--speed) linear infinite backwards',
       },
       boxShadow: {
-        'vignette': '0 0 80px 80px rgba(0,0,0,1) inset',
+        'dark-vignette': '0 0 80px 120px rgba(0,0,0,1) inset',
       }
     },
   },

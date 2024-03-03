@@ -1,17 +1,18 @@
 import React, { useEffect, useRef } from 'react'
 import { getUniqueRandomNumbers } from '../ts/Utils';
+import { twMerge } from 'tailwind-merge';
 
 const LandingPage = () => {
 
     return (
         <div className='h-[calc(100vh-8rem)] grid grid-rows-3 overflow-hidden'>
-            <VideoScrollBanner />
-            <VideoScrollBanner animationSpeed={170} translateElement />
+            <VideoScrollBanner className='row-start-1 col-start-1 row-span-2' />
+            <div className='row-start-1 col-start-1 row-span-2 w-full h-full bg-gradient-to-r from-black from-20% to-transparent to-80% z-10' />
         </div>
     )
 }
 
-const VideoScrollBanner = (props: { animationSpeed?: number, translateElement?: boolean }) => {
+const VideoScrollBanner = (props: { animationSpeed?: number, className?: string }) => {
 
     const randomNumbersInRange: number[] = getUniqueRandomNumbers(1, 13, 6);
 
@@ -30,12 +31,17 @@ const VideoScrollBanner = (props: { animationSpeed?: number, translateElement?: 
     }, [props.animationSpeed]);
 
     return (
-        <div ref={containerRef} className='h-full w-full relative overflow-hidden'>
-            <div className={`w-[calc(2*6*(24rem+1.25rem))] h-full flex ${props.translateElement ? '-translate-x-1/3' : 'translate-x-0'}`}>
-                <section className='h-full flex gap-5 animate-swiper'>
+        <div ref={containerRef} className={
+            twMerge(
+                'h-full w-full relative overflow-hidden',
+                props.className
+            )
+        }>
+            <div className='w-min h-full flex'>
+                <section className='w-fit h-full flex animate-swiper'>
                     {videoElements.map((elem) => (elem))}
                 </section>
-                <section className='h-full flex gap-5 animate-swiper'>
+                <section className='w-fit h-full flex animate-swiper'>
                     {videoElements.map((elem) => (elem))}
                 </section>
             </div>
@@ -47,15 +53,15 @@ const VideoElement = (props: { videoNumber: number }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     useEffect(() => {
         videoRef.current?.load();
-    }, []);
+    })
 
     return (
-        <div className='relative w-96 h-full grid place-items-center'>
-            <video ref={videoRef} autoPlay muted loop>
+        <div className='relative aspect-video h-full flex justify-center'>
+            <video ref={videoRef} autoPlay muted loop className='aspect-video h-full self-center'>
                 <source src={process.env.PUBLIC_URL + '/assets/videos/' + props.videoNumber + '.mp4'} type="video/mp4" />
                 Your browser does not support the <code>video</code> element.
             </video>
-            <div className='absolute top-0 bottom-0 left-0 right-0 scale-110 shadow-vignette' />
+            <div className='absolute top-0 bottom-0 left-0 right-0 scale-110 shadow-dark-vignette' />
         </div>
     )
 }
