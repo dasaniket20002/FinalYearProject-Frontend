@@ -24,3 +24,10 @@ export type LandingPage_CardElementType = {
 export type LogoSVG_PropType = {
     fillColor?: string
 }
+
+export type Navigator_NavProps = {
+    LinkToHome: string,
+    LinkToService: string,
+    LinkToAboutUs: string,
+    LinkToSignUp: string
+}

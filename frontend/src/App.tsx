@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import Nav from './components/Nav';
+import Navigator from './components/Navigator';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Services from './components/Services';
@@ -35,7 +35,7 @@ function App() {
             <div id='grainedContainer' className='fixed w-screen h-screen pointer-events-none z-[100]' />
             <BrowserRouter>
                 <Routes>
-                    <Route path='/' element={<Nav LinkToHome={LinkToHome} LinkToService={LinkToService} LinkToAboutUs={LinkToAboutUs} LinkToSignUp={LinkToSignUp} />} >
+                    <Route path='/' element={<Navigator LinkToHome={LinkToHome} LinkToService={LinkToService} LinkToAboutUs={LinkToAboutUs} LinkToSignUp={LinkToSignUp} />} >
                         <Route path='/' element={<LandingPage />} />
                         <Route path={LinkToHome} element={<Home />} />
                         <Route path={LinkToService} element={<Services />} />
