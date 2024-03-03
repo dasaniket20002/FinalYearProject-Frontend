@@ -16,7 +16,7 @@ function App() {
     const LinkToSignUp = 'signup';
 
     return (
-        <div className="App bg-black min-h-screen text-white font-montserrat">
+        <div className="App bg-black h-[200vh] text-white font-montserrat">
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<Nav LinkToHome={LinkToHome} LinkToService={LinkToService} LinkToAboutUs={LinkToAboutUs} LinkToSignUp={LinkToSignUp} />} >

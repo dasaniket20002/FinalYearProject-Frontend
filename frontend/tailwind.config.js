@@ -9,10 +9,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'blur-transp': 'rgba(255, 255, 255, 0.1)',
+        'blur-transp': 'rgba(0, 0, 0, 0.6)',
       },
       fontFamily: {
         'montserrat': ['"Montserrat"', '"sans-serif"'],
+        'dancing-script': ['"Dancing Script"', '"cursive"']
       },
       keyframes: {
         'swiper-kf': {
@@ -25,7 +26,13 @@ module.exports = {
         }
       },
       animation: {
-        'swiper': 'swiper-kf var(--speed) linear infinite backwards',
+        'swiper-variable-speed': 'swiper-kf var(--speed) linear infinite backwards',
+        'swiper-30': 'swiper-kf 30s linear infinite backwards',
+        'swiper-80': 'swiper-kf 80s linear infinite backwards',
+        'swiper-100': 'swiper-kf 100s linear infinite backwards',
+        'swiper-120': 'swiper-kf 120s linear infinite backwards',
+        'swiper-150': 'swiper-kf 150s linear infinite backwards',
+        'swiper-180': 'swiper-kf 180s linear infinite backwards',
       },
       boxShadow: {
         'dark-vignette': '0 0 80px 120px rgba(0,0,0,1) inset',
