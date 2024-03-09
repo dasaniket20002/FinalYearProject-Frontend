@@ -7,12 +7,18 @@ import { useGSAP } from '@gsap/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import CardElement from './CardComponent';
-import TranslateHoverElement from './TranslateHoverElement';
-import { Link } from 'react-router-dom';
+import TranslateHoverElement from '../misc/TranslateHoverElement';
+import { Link, useNavigate } from 'react-router-dom';
 
-const LandingPage = ({ LinkToSignUp }: LandingPage_PropsType) => {
+const LandingPage = ({ LinkToSignUp, LinkToServices }: LandingPage_PropsType) => {
 
     const cardsContainer = useRef<HTMLDivElement>(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const jwtToken = localStorage.getItem('JWT');
+        if (jwtToken) navigate(LinkToServices);
+    }, [LinkToServices, navigate]);
 
     return (
         <>

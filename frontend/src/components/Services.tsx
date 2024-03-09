@@ -1,8 +1,24 @@
+import { jwtDecode } from 'jwt-decode'
 import React from 'react'
+import { ServerResponseJWTDecoded } from '../ts/Types';
 
 const Services = () => {
+
+    const jwtToken = localStorage.getItem('JWT');
+    const UserObject: ServerResponseJWTDecoded =
+        jwtToken ?
+            jwtDecode(jwtToken)
+            :
+            {
+                username: 'Guest',
+                email: 'default'
+            };
+    console.log(UserObject);
+
     return (
-        <div>Services</div>
+        <div className='pt-[6rem] h-screen'>
+            {UserObject.username}
+        </div>
     )
 }
 

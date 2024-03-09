@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       colors: {
         'blur-transp': 'rgba(0, 0, 0, 0.6)',
+        'white-transp': 'rgba(255, 255, 255, 0.1)',
       },
       fontFamily: {
         'montserrat': ['"Montserrat"', '"sans-serif"'],

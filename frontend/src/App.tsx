@@ -11,15 +11,18 @@ import { grained } from './ts/grained';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import SignOut from './components/SignOut';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
 
+    const root = '/';
     const LinkToHome = 'home';
     const LinkToService = 'services';
     const LinkToAboutUs = 'aboutus';
     const LinkToSignUp = 'signup';
+    const LinkToSignOut = 'signout';
 
     useEffect(() => {
         var options = {
@@ -47,18 +50,28 @@ function App() {
         });
     });
 
+
+
     return (
         <div className="App bg-black min-h-screen text-white font-montserrat">
             <div id='grainedContainer' className='fixed w-screen h-screen pointer-events-none z-[100]' />
             <BrowserRouter>
                 <Routes>
-                    <Route path='/' element={<Navigator LinkToHome={LinkToHome} LinkToService={LinkToService} LinkToAboutUs={LinkToAboutUs} LinkToSignUp={LinkToSignUp} />} >
-                        <Route path='/' element={<LandingPage LinkToSignUp={LinkToSignUp} />} />
+                    <Route path={root} element={
+                        <Navigator
+                            LinkToHome={LinkToHome}
+                            LinkToService={LinkToService}
+                            LinkToAboutUs={LinkToAboutUs}
+                            LinkToSignUp={LinkToSignUp}
+                            LinkToSignOut={LinkToSignOut} />
+                    } >
+                        <Route path='/' element={<LandingPage LinkToSignUp={LinkToSignUp} LinkToServices={LinkToService} />} />
                         <Route path={LinkToHome} element={<Home />} />
                         <Route path={LinkToService} element={<Services />} />
                         <Route path={LinkToAboutUs} element={<AboutUs />} />
                     </Route>
-                    <Route path={LinkToSignUp} element={<SignUp />} />
+                    <Route path={LinkToSignUp} element={<SignUp navigateAfterSignIn={LinkToService} />} />
+                    <Route path={LinkToSignOut} element={<SignOut navigateAfterSignOut={root} />} />
                 </Routes>
             </BrowserRouter>
         </div >

@@ -5,23 +5,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faHandHoldingHeart, faHouse, faUserGroup, faUserPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import LogoSVG from './LogoSVG';
 import { Navigator_NavProps } from '../ts/Types';
-import TranslateHoverElement from './TranslateHoverElement';
+import TranslateHoverElement from '../misc/TranslateHoverElement';
 import { faFacebook, faGithub, faInstagram, faLinkedin, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
 
-const Navigator = ({ LinkToHome, LinkToAboutUs, LinkToService, LinkToSignUp }: Navigator_NavProps) => {
+const Navigator = ({ LinkToHome, LinkToAboutUs, LinkToService, LinkToSignUp, LinkToSignOut }: Navigator_NavProps) => {
     return (
         <>
-            <Nav LinkToHome={LinkToHome} LinkToAboutUs={LinkToAboutUs} LinkToService={LinkToService} LinkToSignUp={LinkToSignUp} />
+            <Nav LinkToHome={LinkToHome} LinkToAboutUs={LinkToAboutUs} LinkToService={LinkToService} LinkToSignUp={LinkToSignUp} LinkToSignOut={LinkToSignOut} />
             <Outlet />
             <Footer />
         </>
     )
 }
 
-const Nav = ({ LinkToHome, LinkToAboutUs, LinkToService, LinkToSignUp }: Navigator_NavProps) => {
+const Nav = ({ LinkToHome, LinkToAboutUs, LinkToService, LinkToSignUp, LinkToSignOut }: Navigator_NavProps) => {
     const { width } = useWindowDimensions();
     const [isNavOpen, setNavOpen] = useState<boolean>(false);
+
+    const jwtToken = localStorage.getItem('JWT');
 
     const expandableDivRef = useRef<HTMLDivElement>(null);
     const mobileNavMenuButtonSpan = useRef<HTMLSpanElement>(null);
@@ -82,11 +84,14 @@ const Nav = ({ LinkToHome, LinkToAboutUs, LinkToService, LinkToSignUp }: Navigat
                         />
                     </Link>
 
-                    <Link to={LinkToSignUp} className='group relative flex flex-col justify-center items-center w-full h-full'>
+                    <Link to={jwtToken ? LinkToSignOut : LinkToSignUp} className='group relative flex flex-col justify-center items-center w-full h-full'>
                         <TranslateHoverElement
                             className='h-7'
                             elementInside={
-                                <>Sign&nbsp;Up</>
+                                jwtToken ?
+                                    <>Sign&nbsp;Out</>
+                                    :
+                                    <>Sign&nbsp;Up</>
                             }
                             outerChildUnderlineElement={
                                 <span className='absolute bottom-0 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-full' />
@@ -148,10 +153,18 @@ const Nav = ({ LinkToHome, LinkToAboutUs, LinkToService, LinkToSignUp }: Navigat
                                     />
                                 </Link>
 
-                                <Link to={LinkToSignUp} className='group relative flex flex-col justify-center w-full'>
+                                <Link to={jwtToken ? LinkToSignOut : LinkToSignUp} className='group relative flex flex-col justify-center w-full'>
                                     <TranslateHoverElement
                                         elementInside={
-                                            <><FontAwesomeIcon icon={faUserPlus} />Sign&nbsp;Up</>
+                                            <>
+                                                <FontAwesomeIcon icon={faUserPlus} />
+                                                {
+                                                    jwtToken ?
+                                                        <>Sign&nbsp;Out</>
+                                                        :
+                                                        <>Sign&nbsp;Up</>
+                                                }
+                                            </>
                                         }
                                         innerChildUnderlineElement={
                                             <span className='absolute -bottom-4 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-2/3' />
