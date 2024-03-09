@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { getUniqueRandomNumbers } from '../ts/Utils';
 import { twMerge } from 'tailwind-merge';
-import { OptionalClassnameType, LandingPage_VideoElementType, LandingPage_VideoScrollBannerType, LandingPage_PropsType } from '../ts/Types';
+import { OptionalClassnameType, LandingPage_VideoElementType, LandingPage_VideoScrollBannerType, LandingPage_PropsType, SignUp_Props } from '../ts/Types';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,15 +10,15 @@ import CardElement from './CardComponent';
 import TranslateHoverElement from '../misc/TranslateHoverElement';
 import { Link, useNavigate } from 'react-router-dom';
 
-const LandingPage = ({ LinkToSignUp, LinkToServices }: LandingPage_PropsType) => {
+const LandingPage = ({ LinkToSignUp, navigateAfterSignIn }: LandingPage_PropsType & SignUp_Props) => {
 
     const cardsContainer = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         const jwtToken = localStorage.getItem('JWT');
-        if (jwtToken) navigate(LinkToServices);
-    }, [LinkToServices, navigate]);
+        if (jwtToken) navigate(navigateAfterSignIn);
+    }, [navigateAfterSignIn, navigate]);
 
     return (
         <>

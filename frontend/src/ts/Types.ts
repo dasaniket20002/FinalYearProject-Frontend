@@ -1,6 +1,5 @@
 export type LandingPage_PropsType = {
-    LinkToSignUp: string,
-    LinkToServices: string
+    LinkToSignUp: string
 }
 
 export type LandingPage_VideoScrollBannerType = {

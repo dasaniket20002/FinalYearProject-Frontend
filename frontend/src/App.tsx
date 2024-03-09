@@ -65,12 +65,12 @@ function App() {
                             LinkToSignUp={LinkToSignUp}
                             LinkToSignOut={LinkToSignOut} />
                     } >
-                        <Route path='/' element={<LandingPage LinkToSignUp={LinkToSignUp} LinkToServices={LinkToService} />} />
+                        <Route path='/' element={<LandingPage LinkToSignUp={LinkToSignUp} navigateAfterSignIn={LinkToHome} />} />
                         <Route path={LinkToHome} element={<Home />} />
                         <Route path={LinkToService} element={<Services />} />
                         <Route path={LinkToAboutUs} element={<AboutUs />} />
                     </Route>
-                    <Route path={LinkToSignUp} element={<SignUp navigateAfterSignIn={LinkToService} />} />
+                    <Route path={LinkToSignUp} element={<SignUp navigateAfterSignIn={LinkToHome} />} />
                     <Route path={LinkToSignOut} element={<SignOut navigateAfterSignOut={root} />} />
                 </Routes>
             </BrowserRouter>
