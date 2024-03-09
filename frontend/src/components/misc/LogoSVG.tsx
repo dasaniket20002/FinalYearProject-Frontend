@@ -1,5 +1,5 @@
 import React from 'react'
-import { LogoSVG_PropType, OptionalClassnameType } from '../ts/Types'
+import { LogoSVG_PropType, OptionalClassnameType } from '../../ts/Types'
 import colors from 'tailwindcss/colors'
 
 const LogoSVG = ({ fillColor, className }: LogoSVG_PropType & OptionalClassnameType) => {

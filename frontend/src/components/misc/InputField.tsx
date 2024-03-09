@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { InputField_Props, OptionalClassnameType } from '../ts/Types'
+import { InputField_Props, OptionalClassnameType } from '../../ts/Types'
 import { twMerge } from 'tailwind-merge'
 import axios from 'axios';
 

@@ -3,9 +3,9 @@ import { Link, Outlet } from "react-router-dom";
 import useWindowDimensions from '../hooks/WindowSizeHook';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faHandHoldingHeart, faHouse, faUserGroup, faUserPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
-import LogoSVG from './LogoSVG';
+import LogoSVG from './misc/LogoSVG';
 import { Navigator_NavProps } from '../ts/Types';
-import TranslateHoverElement from '../misc/TranslateHoverElement';
+import TranslateHoverElement from './misc/TranslateHoverElement';
 import { faFacebook, faGithub, faInstagram, faLinkedin, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
 

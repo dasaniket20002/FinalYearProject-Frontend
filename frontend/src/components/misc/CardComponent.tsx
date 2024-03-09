@@ -1,5 +1,5 @@
 import { twMerge } from "tailwind-merge"
-import { LandingPage_CardElementType, OptionalClassnameType } from "../ts/Types"
+import { LandingPage_CardElementType, OptionalClassnameType } from "../../ts/Types"
 
 const CardElement = ({ child, children, className }: LandingPage_CardElementType & OptionalClassnameType) => {
     return (

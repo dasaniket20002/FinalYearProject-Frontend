@@ -6,8 +6,8 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import CardElement from './CardComponent';
-import TranslateHoverElement from '../misc/TranslateHoverElement';
+import CardElement from './misc/CardComponent';
+import TranslateHoverElement from './misc/TranslateHoverElement';
 import { Link, useNavigate } from 'react-router-dom';
 
 const LandingPage = ({ LinkToSignUp, navigateAfterSignIn }: LandingPage_PropsType & SignUp_Props) => {

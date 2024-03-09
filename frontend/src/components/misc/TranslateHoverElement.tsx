@@ -1,5 +1,5 @@
 import React from 'react'
-import { OptionalClassnameType, TranslateHoverElementType } from '../ts/Types'
+import { OptionalClassnameType, TranslateHoverElementType } from '../../ts/Types'
 import { twMerge } from 'tailwind-merge'
 
 const TranslateHoverElement = ({ className, elementInside, innerChildUnderlineElement, outerChildUnderlineElement }: TranslateHoverElementType & OptionalClassnameType) => {

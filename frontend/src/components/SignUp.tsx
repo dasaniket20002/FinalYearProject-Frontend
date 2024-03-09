@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react'
-import InputField from '../misc/InputField'
-import TranslateHoverElement from '../misc/TranslateHoverElement'
+import InputField from './misc/InputField'
+import TranslateHoverElement from './misc/TranslateHoverElement'
 import { twMerge } from 'tailwind-merge';
-import LogoSVG from './LogoSVG';
+import LogoSVG from './misc/LogoSVG';
 import axios from 'axios';
 import { SignInPayload, SignUpPayload, SignUp_Props } from '../ts/Types';
 import { useNavigate } from 'react-router-dom';
