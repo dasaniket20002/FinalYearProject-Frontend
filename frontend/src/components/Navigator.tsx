@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, Outlet } from "react-router-dom";
-import useWindowDimensions from '../hooks/WindowSizeHook';
+import useWindowDimensions from '../ts/hooks/WindowSizeHook';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faHandHoldingHeart, faHouse, faUserGroup, faUserPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import LogoSVG from './misc/LogoSVG';
