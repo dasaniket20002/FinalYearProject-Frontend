@@ -53,7 +53,6 @@ function App() {
 
 
     return (
-
         <div className="App bg-black min-h-screen text-white font-montserrat">
             <div id='grainedContainer' className='fixed w-screen h-screen pointer-events-none z-[100]' />
             <BrowserRouter>
