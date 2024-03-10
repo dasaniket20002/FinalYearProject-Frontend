@@ -18,6 +18,7 @@ const LandingPage = ({ LinkToSignUp, navigateAfterSignIn }: LandingPage_PropsTyp
     useEffect(() => {
         const jwtToken = localStorage.getItem('JWT');
         if (jwtToken) navigate(navigateAfterSignIn);
+        else localStorage.removeItem('ACCESS_TOKEN');
     }, [navigateAfterSignIn, navigate]);
 
     return (
