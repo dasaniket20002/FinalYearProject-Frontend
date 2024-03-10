@@ -62,18 +62,27 @@ export type SignOut_Props = {
 }
 
 export type SignUpPayload = {
-    username: string,
+    name: string,
     email: string,
     password: string
 }
+export type SignUpPayloadWP = {
+    name: string,
+    email: string
+}
 
 export type SignInPayload = {
-    username?: string,
+    name?: string,
     email?: string,
     password: string
 }
+export type SignInPayloadWP = {
+    name?: string,
+    email?: string
+}
 
 export type ServerResponseJWTDecoded = {
-    username: string,
+    _id: string,
+    name: string,
     email: string
 }
