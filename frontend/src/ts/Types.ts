@@ -86,3 +86,29 @@ export type ServerResponseJWTDecoded = {
     name: string,
     email: string
 }
+
+export type VideosResponse = {
+    kind: string,
+    nextPageToken?: string,
+    prevPageToken?: string,
+    video_list?: VideoResponse[]
+}
+export type VideoResponse = {
+    channelId: string,
+    channelTitle: string,
+    defaultAudioLanguage: string,
+    defaultLanguage: string,
+    definition: string,
+    duration: string,
+    id: string,
+    kind: string,
+    tags: string[],
+    thumbnail: VideoThumbnail,
+    title: string,
+    topicDetails: string[]
+}
+export type VideoThumbnail = {
+    height: number,
+    width: number,
+    url: string
+}

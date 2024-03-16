@@ -1,38 +1,61 @@
-import { jwtDecode } from 'jwt-decode';
-import React from 'react'
-import { ServerResponseJWTDecoded } from '../ts/Types';
-
+import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from "react";
+import { ServerResponseJWTDecoded, VideosResponse } from "../ts/Types";
+import InputField from "./misc/InputField";
+import axios from "axios";
 
 const Home = () => {
-    const jwtToken = localStorage.getItem('JWT');
-    const UserObject: ServerResponseJWTDecoded =
-        jwtToken ?
-            jwtDecode(jwtToken)
-            :
-            {
-                _id: 'default',
-                name: 'Guest',
-                email: 'default'
-            };
+	const jwtToken = localStorage.getItem("JWT");
+	const accessToken = localStorage.getItem("ACCESS_TOKEN");
+	const UserObject: ServerResponseJWTDecoded = jwtToken
+		? jwtDecode(jwtToken)
+		: {
+				_id: "default",
+				name: "Guest",
+				email: "default",
+		  };
 
-    // useEffect(() => {
-    //     const accessToken = localStorage.getItem('ACCESS_TOKEN');
-    //     const url = new URL('http://localhost:5000/youtube/trending');
-    //     url.searchParams.set('regionCode', 'IN');
-    //     url.searchParams.set('maxResults', '10');
-    //     if (accessToken) url.searchParams.set('accessToken', accessToken);
+	const [search, setSearch] = useState<string>("");
 
-    //     axios.get(url.toString())
-    //         .then(res => {
-    //             console.log(res.data);
-    //         })
-    // }, []);
+	const [videosList, setVideosList] = useState<VideosResponse>();
 
-    return (
-        <div className='pt-[6rem] min-h-screen'>
-            {UserObject.name}
-        </div>
-    )
-}
+	useEffect(() => {
+		const serverIP = "http://localhost:5001/";
+		const youtubeFunctionLinks = {
+			trending: serverIP + "youtube/trending",
+			search: serverIP + "youtube/search",
+		};
 
-export default Home
+		let link = youtubeFunctionLinks.trending;
+		if (accessToken) {
+			link += "?access_token=" + accessToken;
+		}
+		console.log(link);
+		axios.get(link).then((res) => {
+			console.log(res);
+			setVideosList(res.data);
+		});
+	}, [accessToken]);
+
+	return (
+		<div className="pt-[6rem] min-h-[calc(50vh+6rem)]">
+			<form
+				className="w-full px-4 flex justify-center"
+				onSubmit={() => {}}
+			>
+				<InputField
+					id="search"
+					type="text"
+					placeholder="Search..."
+					value={search}
+					setterFunction={setSearch}
+					className="text-white w-full md:w-1/2"
+				/>
+			</form>
+
+			{videosList?.video_list?.map((item) => item.id)}
+		</div>
+	);
+};
+
+export default Home;
