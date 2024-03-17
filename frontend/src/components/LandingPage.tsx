@@ -14,10 +14,10 @@ import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import CardElement from "./misc/CardComponent";
 import TranslateHoverElement from "./misc/TranslateHoverElement";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
-const LandingPage = ({ LinkToSignUp }: LandingPage_PropsType) => {
+const LandingPage = ({ LinkToSignUp, LinkToHome }: LandingPage_PropsType) => {
 	const cardsContainer = useRef<HTMLDivElement>(null);
+	const access_token = localStorage.getItem("access_token");
 
 	return (
 		<>
@@ -78,15 +78,19 @@ const LandingPage = ({ LinkToSignUp }: LandingPage_PropsType) => {
 						</p>
 					</span>
 					<Link
-						to={LinkToSignUp}
-						className="stagger bg-amber-600 m-4 h-full lg:h-36 self-center rounded flex items-center justify-center text-2xl md:text-4xl font-bold text-white group"
+						to={access_token ? LinkToHome : LinkToSignUp}
+						className="stagger bg-amber-600 m-4 h-full lg:h-36 self-center rounded flex items-center justify-center text-2xl md:text-4xl font-bold text-gray-200 group"
 					>
 						<TranslateHoverElement
 							className="h-[2.25rem] md:h-[2.75rem]"
 							elementInside={
 								<>
 									<FontAwesomeIcon icon={faAngleRight} />
-									Sign&nbsp;Up
+									{access_token ? (
+										<>Explore&nbsp;Now</>
+									) : (
+										<>Sign&nbsp;Up</>
+									)}
 									<FontAwesomeIcon icon={faAngleLeft} />
 								</>
 							}

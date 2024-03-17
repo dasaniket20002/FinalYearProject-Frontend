@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Services from "./components/Services";
 import AboutUs from "./components/AboutUs";
-import SignUp from "./components/SignUp";
+import SignIn from "./components/SignIn";
 import LandingPage from "./components/LandingPage";
 import { grained } from "./ts/grained";
 import gsap from "gsap";
@@ -50,7 +50,7 @@ function App() {
 	});
 
 	return (
-		<div className="App bg-black min-h-screen text-white font-montserrat">
+		<div className="App bg-black min-h-screen text-gray-200 font-montserrat">
 			<div
 				id="grainedContainer"
 				className="fixed w-screen h-screen pointer-events-none z-[100]"
@@ -72,14 +72,20 @@ function App() {
 						<Route
 							path="/"
 							element={
-								<LandingPage LinkToSignUp={LinkToSignUp} />
+								<LandingPage
+									LinkToSignUp={LinkToSignUp}
+									LinkToHome={LinkToHome}
+								/>
 							}
 						/>
 						<Route path={LinkToHome} element={<Home />} />
 						<Route path={LinkToService} element={<Services />} />
 						<Route path={LinkToAboutUs} element={<AboutUs />} />
 					</Route>
-					<Route path={LinkToSignUp} element={<SignUp />} />
+					<Route
+						path={LinkToSignUp}
+						element={<SignIn navigateAfterSignIn={LinkToHome} />}
+					/>
 					<Route
 						path={LinkToSignOut}
 						element={<SignOut navigateAfterSignOut={root} />}

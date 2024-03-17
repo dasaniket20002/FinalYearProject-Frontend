@@ -1,5 +1,6 @@
 export type LandingPage_PropsType = {
 	LinkToSignUp: string;
+	LinkToHome: string;
 };
 
 export type LandingPage_VideoScrollBannerType = {
@@ -18,6 +19,14 @@ export type OptionalClassnameType = {
 
 export type MandatoryClassnameType = {
 	className: string;
+};
+
+export type OptionalParameterlessFunction = {
+	method?: () => void;
+};
+
+export type MandatoryParameterlessFunction = {
+	method: () => void;
 };
 
 export type LandingPage_CardElementType = {
@@ -65,9 +74,9 @@ export type VideosResponse = {
 	kind: string;
 	nextPageToken?: string;
 	prevPageToken?: string;
-	video_list?: VideoResponse[];
+	video_list?: VideoElement[];
 };
-export type VideoResponse = {
+export type VideoElement = {
 	channelId: string;
 	channelTitle: string;
 	defaultAudioLanguage: string;

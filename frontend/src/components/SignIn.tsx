@@ -1,78 +1,57 @@
-import React, { useRef } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import TranslateHoverElement from "./misc/TranslateHoverElement";
 import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { SignIn_Props } from "../ts/Types";
+import LoadingIcon from "./misc/LoadingIcon";
 
-gsap.registerPlugin(ScrollTrigger);
-
-const SignUp = () => {
+const SignIn = ({ navigateAfterSignIn }: SignIn_Props) => {
 	const navigate = useNavigate();
 
 	const login = useGoogleLogin({
 		onSuccess: (tokenResponse: TokenResponse) => {
-			navigate("/home", {
+			localStorage.setItem("access_token", tokenResponse.access_token);
+			localStorage.setItem("token_type", tokenResponse.token_type);
+			console.log(tokenResponse.scope);
+
+			axios
+				.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+					headers: {
+						Authorization: `${tokenResponse.token_type} ${tokenResponse.access_token}`,
+					},
+				})
+				.then((res) => {
+					localStorage.setItem("email", res.data.email);
+					localStorage.setItem("name", res.data.name);
+					localStorage.setItem("picture", res.data.picture);
+					localStorage.setItem("sub", res.data.sub);
+				})
+				.catch((err) => console.log(err));
+
+			navigate(`/${navigateAfterSignIn}`, {
 				state: {
 					access_token: tokenResponse.access_token,
 					token_type: tokenResponse.token_type,
 				},
 			});
 		},
-		onError: (err) => console.log(err),
+		onError: (
+			tokenResponse: Pick<
+				TokenResponse,
+				"error" | "error_description" | "error_uri"
+			>
+		) => console.log(tokenResponse.error),
+		scope: "email profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid https://www.googleapis.com/auth/youtube.force-ssl",
 	});
-
-	const ellipsisStaggerRef = useRef<HTMLSpanElement>(null);
-	useGSAP(
-		() => {
-			gsap.fromTo(
-				"p",
-				{
-					duration: 1,
-					opacity: 0,
-					repeat: -1,
-					yoyo: false,
-					ease: "linear",
-					stagger: 0.5,
-				},
-				{
-					duration: 1,
-					opacity: 1,
-					repeat: -1,
-					yoyo: false,
-					ease: "linear",
-					stagger: 0.5,
-					delay: 1,
-				}
-			);
-			gsap.to("p", {
-				duration: 1,
-				opacity: 0,
-				repeat: -1,
-				yoyo: false,
-				ease: "linear",
-				stagger: 0.5,
-				delay: 2,
-			});
-		},
-		{ scope: ellipsisStaggerRef }
-	);
 
 	return (
 		<div className="flex flex-col items-center justify-between h-screen py-10">
 			<h1 className="text-8xl font-semibold tracking-widest p-8">
 				LOGIN
-				<span
-					ref={ellipsisStaggerRef}
-					className="w-full flex justify-center text-2xl"
-				>
-					<p>.</p>
-					<p>.</p>
-					<p>.</p>
-				</span>
+				<LoadingIcon />
 			</h1>
 
 			<button
@@ -92,7 +71,7 @@ const SignUp = () => {
 				/>
 			</button>
 
-			<section>
+			<section className="px-4">
 				<h1 className="text-gray-400">Google Login Required</h1>
 				<p className="text-gray-600">
 					This is because, your Google Account is used to generate a
@@ -105,4 +84,4 @@ const SignUp = () => {
 	);
 };
 
-export default SignUp;
+export default SignIn;

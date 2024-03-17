@@ -53,7 +53,7 @@ const Nav = ({
 	const { width } = useWindowDimensions();
 	const [isNavOpen, setNavOpen] = useState<boolean>(false);
 
-	const jwtToken = localStorage.getItem("JWT");
+	const access_token = localStorage.getItem("access_token");
 
 	const expandableDivRef = useRef<HTMLDivElement>(null);
 	const mobileNavMenuButtonSpan = useRef<HTMLSpanElement>(null);
@@ -90,7 +90,7 @@ const Nav = ({
 							className="h-7"
 							elementInside={<>Home</>}
 							outerChildUnderlineElement={
-								<span className="absolute bottom-0 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-full" />
+								<span className="absolute bottom-0 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-full" />
 							}
 						/>
 					</Link>
@@ -103,7 +103,7 @@ const Nav = ({
 							className="h-7"
 							elementInside={<>Services</>}
 							outerChildUnderlineElement={
-								<span className="absolute bottom-0 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-full" />
+								<span className="absolute bottom-0 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-full" />
 							}
 						/>
 					</Link>
@@ -118,26 +118,26 @@ const Nav = ({
 							className="h-7"
 							elementInside={<>About&nbsp;Us</>}
 							outerChildUnderlineElement={
-								<span className="absolute bottom-0 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-full" />
+								<span className="absolute bottom-0 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-full" />
 							}
 						/>
 					</Link>
 
 					<Link
-						to={jwtToken ? LinkToSignOut : LinkToSignUp}
+						to={access_token ? LinkToSignOut : LinkToSignUp}
 						className="group relative flex flex-col justify-center items-center w-full h-full"
 					>
 						<TranslateHoverElement
 							className="h-7"
 							elementInside={
-								jwtToken ? (
+								access_token ? (
 									<>Sign&nbsp;Out</>
 								) : (
 									<>Sign&nbsp;In</>
 								)
 							}
 							outerChildUnderlineElement={
-								<span className="absolute bottom-0 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-full" />
+								<span className="absolute bottom-0 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-full" />
 							}
 						/>
 					</Link>
@@ -189,7 +189,7 @@ const Nav = ({
 											</>
 										}
 										innerChildUnderlineElement={
-											<span className="absolute -bottom-4 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-2/3" />
+											<span className="absolute -bottom-4 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-2/3" />
 										}
 									/>
 								</Link>
@@ -208,7 +208,7 @@ const Nav = ({
 											</>
 										}
 										innerChildUnderlineElement={
-											<span className="absolute -bottom-4 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-2/3" />
+											<span className="absolute -bottom-4 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-2/3" />
 										}
 									/>
 								</Link>
@@ -227,13 +227,17 @@ const Nav = ({
 											</>
 										}
 										innerChildUnderlineElement={
-											<span className="absolute -bottom-4 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-2/3" />
+											<span className="absolute -bottom-4 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-2/3" />
 										}
 									/>
 								</Link>
 
 								<Link
-									to={jwtToken ? LinkToSignOut : LinkToSignUp}
+									to={
+										access_token
+											? LinkToSignOut
+											: LinkToSignUp
+									}
 									className="group relative flex flex-col justify-center w-full"
 								>
 									<TranslateHoverElement
@@ -242,7 +246,7 @@ const Nav = ({
 												<FontAwesomeIcon
 													icon={faUserPlus}
 												/>
-												{jwtToken ? (
+												{access_token ? (
 													<>Sign&nbsp;Out</>
 												) : (
 													<>Sign&nbsp;In</>
@@ -250,7 +254,7 @@ const Nav = ({
 											</>
 										}
 										innerChildUnderlineElement={
-											<span className="absolute -bottom-4 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-2/3" />
+											<span className="absolute -bottom-4 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-2/3" />
 										}
 									/>
 								</Link>
@@ -286,7 +290,7 @@ const Footer = () => {
 										className="h-6 md:h-7 w-min text-sm md:text-base"
 										elementInside={<>Content</>}
 										innerChildUnderlineElement={
-											<span className="absolute bottom-0 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-full" />
+											<span className="absolute bottom-0 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-full" />
 										}
 									/>
 								</Link>
@@ -298,7 +302,7 @@ const Footer = () => {
 										className="h-6 md:h-7 w-min text-sm md:text-base"
 										elementInside={<>Explore</>}
 										innerChildUnderlineElement={
-											<span className="absolute bottom-0 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-full" />
+											<span className="absolute bottom-0 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-full" />
 										}
 									/>
 								</Link>
@@ -312,7 +316,7 @@ const Footer = () => {
 											<>Terms&nbsp;&&nbsp;Services</>
 										}
 										innerChildUnderlineElement={
-											<span className="absolute bottom-0 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-full" />
+											<span className="absolute bottom-0 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-full" />
 										}
 									/>
 								</Link>
@@ -328,7 +332,7 @@ const Footer = () => {
 											<>Help&nbsp;&&nbsp;Support</>
 										}
 										innerChildUnderlineElement={
-											<span className="absolute bottom-0 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-full" />
+											<span className="absolute bottom-0 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-full" />
 										}
 									/>
 								</Link>
@@ -340,7 +344,7 @@ const Footer = () => {
 										className="h-6 md:h-7 w-min text-sm md:text-base"
 										elementInside={<>Suggestions</>}
 										innerChildUnderlineElement={
-											<span className="absolute bottom-0 w-0 h-0.5 bg-white opacity-80 transition-all group-hover:w-full" />
+											<span className="absolute bottom-0 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-full" />
 										}
 									/>
 								</Link>
