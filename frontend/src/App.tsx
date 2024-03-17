@@ -72,10 +72,7 @@ function App() {
 						<Route
 							path="/"
 							element={
-								<LandingPage
-									LinkToSignUp={LinkToSignUp}
-									navigateAfterSignIn={LinkToHome}
-								/>
+								<LandingPage LinkToSignUp={LinkToSignUp} />
 							}
 						/>
 						<Route path={LinkToHome} element={<Home />} />
