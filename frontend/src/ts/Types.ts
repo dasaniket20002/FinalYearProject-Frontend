@@ -50,6 +50,8 @@ export type TranslateHoverElementType = {
 	elementInside: JSX.Element;
 	innerChildUnderlineElement?: JSX.Element;
 	outerChildUnderlineElement?: JSX.Element;
+
+	elementInsideClassname?: string;
 };
 
 export type InputField_Props = {
@@ -70,13 +72,13 @@ export type SignOut_Props = {
 	navigateAfterSignOut: string;
 };
 
-export type VideosResponse = {
+export type VideosResponse_Type = {
 	kind: string;
 	nextPageToken?: string;
 	prevPageToken?: string;
-	video_list?: VideoElement[];
+	video_list?: VideoElement_Type[];
 };
-export type VideoElement = {
+export type VideoElement_Type = {
 	channelId: string;
 	channelTitle: string;
 	defaultAudioLanguage: string;
@@ -86,12 +88,16 @@ export type VideoElement = {
 	id: string;
 	kind: string;
 	tags: string[];
-	thumbnail: VideoThumbnail;
+	thumbnail: VideoThumbnail_Type;
 	title: string;
 	topicDetails: string[];
 };
-export type VideoThumbnail = {
+export type VideoThumbnail_Type = {
 	height: number;
 	width: number;
 	url: string;
+};
+
+export type VideoBrowser_Type = {
+	elements: VideoElement_Type[];
 };

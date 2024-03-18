@@ -7,12 +7,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import {
 	MandatoryParameterlessFunction,
-	VideoElement,
-	VideosResponse,
+	VideoBrowser_Type,
+	VideoElement_Type,
+	VideosResponse_Type,
 } from "../ts/Types";
 
 const Home = () => {
-	const [videosList, setVideosList] = useState<VideoElement[]>();
+	const [videosList, setVideosList] = useState<VideoElement_Type[]>();
 	const [search, setSearch] = useState<string>("");
 
 	const access_token = localStorage.getItem("access_token");
@@ -41,7 +42,7 @@ const Home = () => {
 				},
 			})
 			.then((res) => {
-				const videoResponse = res.data as VideosResponse;
+				const videoResponse = res.data as VideosResponse_Type;
 				if (videoResponse.video_list)
 					setVideosList(videoResponse.video_list);
 				console.log(videoResponse);
@@ -80,7 +81,7 @@ const Home = () => {
 			</h1>
 
 			{videosList && videosList.length !== 0 ? (
-				<>List of Videos</>
+				<VideoBrowser elements={videosList} />
 			) : (
 				access_token === null && <TryFetchAgain method={fetchVideos} />
 			)}
@@ -100,15 +101,62 @@ const TryFetchAgain = ({ method }: MandatoryParameterlessFunction) => {
 			>
 				<TranslateHoverElement
 					className="h-6"
+					elementInsideClassname="gap-3"
 					elementInside={
 						<>
 							<FontAwesomeIcon icon={faRotateRight} />
-							&nbsp; Fetch
+							Fetch
 						</>
 					}
 				/>
 			</button>
 		</div>
+	);
+};
+
+const VideoBrowser = ({ elements }: VideoBrowser_Type) => {
+	return (
+		<div className="mx-4 md:mx-32 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4">
+			{elements.map((item, index) => (
+				<VideoElement
+					key={index}
+					channelId={item.channelId}
+					channelTitle={item.channelTitle}
+					defaultAudioLanguage={item.defaultAudioLanguage}
+					defaultLanguage={item.defaultLanguage}
+					definition={item.definition}
+					duration={item.duration}
+					id={item.id}
+					kind={item.kind}
+					tags={item.tags}
+					thumbnail={item.thumbnail}
+					title={item.title}
+					topicDetails={item.topicDetails}
+				/>
+			))}
+		</div>
+	);
+};
+
+const VideoElement = ({
+	channelId,
+	channelTitle,
+	defaultAudioLanguage,
+	defaultLanguage,
+	definition,
+	duration,
+	id,
+	kind,
+	tags,
+	thumbnail,
+	title,
+	topicDetails,
+}: VideoElement_Type) => {
+	return (
+		<section className="flex flex-col gap-2 items-center">
+			<img className="w-96 bg-cover" src={thumbnail.url} alt="" />
+			<h1>{title}</h1>
+		</section>
 	);
 };
 

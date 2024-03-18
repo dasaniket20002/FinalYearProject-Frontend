@@ -171,6 +171,7 @@ const VideoElement = ({ videoNumber }: LandingPage_VideoElementType) => {
 	return (
 		<div className="relative aspect-video h-full flex justify-center">
 			<video
+				preload="none"
 				ref={videoRef}
 				autoPlay
 				muted
