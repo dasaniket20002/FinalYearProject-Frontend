@@ -81,6 +81,8 @@ export type VideosResponse_Type = {
 export type VideoElement_Type = {
 	channelId: string;
 	channelTitle: string;
+	channelThumbnail: VideoThumbnail_Type;
+	publishedAt: string;
 	defaultAudioLanguage: string;
 	defaultLanguage: string;
 	definition: string;
