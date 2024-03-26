@@ -45,6 +45,9 @@ export type Navigator_NavProps = {
 	LinkToSignUp: string;
 	LinkToSignOut: string;
 };
+export type Home_HomeProps = {
+	LinkToVideoPlayer: string;
+};
 
 export type TranslateHoverElementType = {
 	elementInside: JSX.Element;
@@ -83,6 +86,7 @@ export type VideoElement_Type = {
 	channelTitle: string;
 	channelThumbnail: VideoThumbnail_Type;
 	publishedAt: string;
+	description: string;
 	defaultAudioLanguage: string;
 	defaultLanguage: string;
 	definition: string;

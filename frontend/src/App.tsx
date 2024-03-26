@@ -12,17 +12,19 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import SignOut from "./components/SignOut";
+import VideoPlayer from "./components/VideoPlayer";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function App() {
-	const root = "/";
-	const LinkToHome = "home";
-	const LinkToService = "services";
-	const LinkToAboutUs = "aboutus";
-	const LinkToSignUp = "signup";
-	const LinkToSignOut = "signout";
+const root = "/";
+const LinkToHome = "home";
+const LinkToService = "services";
+const LinkToAboutUs = "aboutus";
+const LinkToSignUp = "signup";
+const LinkToSignOut = "signout";
+const LinkToVideoPlayer = "videoplayer";
 
+function App() {
 	useEffect(() => {
 		var options = {
 			animate: true,
@@ -70,7 +72,7 @@ function App() {
 						}
 					>
 						<Route
-							path="/"
+							path={root}
 							element={
 								<LandingPage
 									LinkToSignUp={LinkToSignUp}
@@ -78,9 +80,19 @@ function App() {
 								/>
 							}
 						/>
-						<Route path={LinkToHome} element={<Home />} />
+						<Route
+							path={LinkToHome}
+							element={
+								<Home LinkToVideoPlayer={LinkToVideoPlayer} />
+							}
+						/>
+
 						<Route path={LinkToService} element={<Services />} />
 						<Route path={LinkToAboutUs} element={<AboutUs />} />
+						<Route
+							path={`${LinkToHome}/${LinkToVideoPlayer}`}
+							element={<VideoPlayer />}
+						/>
 					</Route>
 					<Route
 						path={LinkToSignUp}

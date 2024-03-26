@@ -6,14 +6,16 @@ import TranslateHoverElement from "./misc/TranslateHoverElement";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import {
+	Home_HomeProps,
 	MandatoryParameterlessFunction,
 	VideoBrowser_Type,
 	VideoElement_Type,
 	VideosResponse_Type,
 } from "../ts/Types";
 import { checkSubsetForVideos, convertYTDuration } from "../ts/Utils";
+import { Link } from "react-router-dom";
 
-const Home = () => {
+const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 	const videoResponse = useRef<VideosResponse_Type>();
 	const videoListKind = useRef<string>("youtube#videoListResponse");
 	const videosList = useRef<VideoElement_Type[]>();
@@ -49,10 +51,9 @@ const Home = () => {
 					videoResponse.current.video_list
 				)
 			)
-				videosList.current = [
-					...videosList.current,
-					...videoResponse.current.video_list,
-				];
+				videosList.current = videosList.current.concat(
+					videoResponse.current.video_list
+				);
 			else videosList.current = videoResponse.current.video_list;
 	}, []);
 
@@ -81,7 +82,7 @@ const Home = () => {
 				})
 				.catch((err) => console.log(err));
 		},
-		[access_token, apiCalls.trending, token_type, videosList]
+		[access_token, apiCalls.trending, token_type, processVideoResponse]
 	);
 
 	const loadMoreVideos = useCallback(() => {
@@ -165,7 +166,10 @@ const Home = () => {
 			</h1>
 
 			{videosList.current && videosList.current.length !== 0 ? (
-				<VideoBrowser elements={videosList.current} />
+				<VideoBrowser
+					elements={videosList.current}
+					LinkToVideoPlayer={LinkToVideoPlayer}
+				/>
 			) : (
 				access_token === null && <TryFetchAgain method={fetchVideos} />
 			)}
@@ -198,7 +202,10 @@ const TryFetchAgain = ({ method }: MandatoryParameterlessFunction) => {
 	);
 };
 
-const VideoBrowser = ({ elements }: VideoBrowser_Type) => {
+const VideoBrowser = ({
+	elements,
+	LinkToVideoPlayer,
+}: VideoBrowser_Type & Home_HomeProps) => {
 	return (
 		<div className="mx-4 my-12 md:mx-32 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-16 py-4">
 			{elements.map((item, index) => (
@@ -208,6 +215,7 @@ const VideoBrowser = ({ elements }: VideoBrowser_Type) => {
 					channelTitle={item.channelTitle}
 					channelThumbnail={item.channelThumbnail}
 					publishedAt={item.publishedAt}
+					description={item.description}
 					defaultAudioLanguage={item.defaultAudioLanguage}
 					defaultLanguage={item.defaultLanguage}
 					definition={item.definition}
@@ -218,6 +226,7 @@ const VideoBrowser = ({ elements }: VideoBrowser_Type) => {
 					thumbnail={item.thumbnail}
 					title={item.title}
 					topicDetails={item.topicDetails}
+					LinkToVideoPlayer={LinkToVideoPlayer}
 				/>
 			))}
 		</div>
@@ -229,6 +238,7 @@ const VideoElement = ({
 	channelTitle,
 	channelThumbnail,
 	publishedAt,
+	description,
 	defaultAudioLanguage,
 	defaultLanguage,
 	definition,
@@ -239,41 +249,56 @@ const VideoElement = ({
 	thumbnail,
 	title,
 	topicDetails,
-}: VideoElement_Type) => {
+	LinkToVideoPlayer,
+}: VideoElement_Type & Home_HomeProps) => {
 	return (
-		<section className="relative flex flex-col gap-2 p-2 pb-6 items-center group rounded transition cursor-pointer hover:bg-white-transp hover:scale-110">
-			<section className="relative rounded aspect-video overflow-hidden">
-				<img
-					className="w-96 -my-[10%] scale-105"
-					src={thumbnail.url}
-					alt=""
-				/>
-				<p className="absolute uppercase text-white text-xs font-bold bottom-2 left-2 py-1 px-2 bg-blur-transp rounded">
-					{definition}
-				</p>
-				<p className="absolute text-white text-xs font-bold bottom-2 right-2 py-1 px-2 bg-blur-transp rounded">
-					{convertYTDuration(duration)}
-				</p>
-			</section>
-			<h1 className="relative font-medium line-clamp-2 w-full px-2 py-1 rounded transition group-hover:bg-white-transp">
-				{title}
-			</h1>
-			<section className="px-2 flex gap-3 w-full items-center">
-				<section className="rounded-full overflow-hidden aspect-square w-max h-max transition p-1 group-hover:bg-white-transp">
+		<Link
+			to={LinkToVideoPlayer}
+			state={{
+				id,
+				title,
+				description,
+				channelTitle,
+				channelThumbnail,
+				tags,
+				topicDetails,
+				publishedAt,
+			}}
+		>
+			<section className="relative flex flex-col gap-2 p-2 pb-6 items-center group rounded transition cursor-pointer hover:bg-white-transp hover:scale-110">
+				<section className="relative rounded aspect-video overflow-hidden">
 					<img
-						className="w-6 rounded-full"
-						src={channelThumbnail.url}
+						className="w-96 -my-[10%] scale-105"
+						src={thumbnail.url}
 						alt=""
 					/>
+					<p className="absolute uppercase text-white text-xs font-bold bottom-2 left-2 py-1 px-2 bg-blur-transp rounded">
+						{definition}
+					</p>
+					<p className="absolute text-white text-xs font-bold bottom-2 right-2 py-1 px-2 bg-blur-transp rounded">
+						{convertYTDuration(duration)}
+					</p>
 				</section>
-				<p className="text-xs font-semibold p-1 group-hover:bg-white-transp rounded">
-					{channelTitle}
+				<h1 className="relative font-medium line-clamp-2 w-full px-2 py-1 rounded transition group-hover:bg-white-transp">
+					{title}
+				</h1>
+				<section className="px-2 flex gap-3 w-full items-center">
+					<section className="rounded-full overflow-hidden aspect-square w-max h-max transition p-1 group-hover:bg-white-transp">
+						<img
+							className="w-6 rounded-full"
+							src={channelThumbnail.url}
+							alt=""
+						/>
+					</section>
+					<p className="text-xs font-semibold p-1 group-hover:bg-white-transp rounded">
+						{channelTitle}
+					</p>
+				</section>
+				<p className="text-xs font-medium text-right text-gray-500 w-full px-2">
+					{new Date(publishedAt).toDateString()}
 				</p>
 			</section>
-			<p className="text-xs font-medium text-right text-gray-500 w-full px-2">
-				{new Date(publishedAt).toDateString()}
-			</p>
-		</section>
+		</Link>
 	);
 };
 
