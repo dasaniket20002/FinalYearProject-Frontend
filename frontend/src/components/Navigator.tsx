@@ -53,7 +53,7 @@ const Nav = ({
 	const { width } = useWindowDimensions();
 	const [isNavOpen, setNavOpen] = useState<boolean>(false);
 
-	const access_token = localStorage.getItem("access_token");
+	const access_token = sessionStorage.getItem("access_token");
 
 	const expandableDivRef = useRef<HTMLDivElement>(null);
 	const mobileNavMenuButtonSpan = useRef<HTMLSpanElement>(null);

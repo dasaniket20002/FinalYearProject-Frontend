@@ -15,29 +15,30 @@ import {
 import { checkSubsetForVideos, convertYTDuration } from "../ts/Utils";
 import { Link } from "react-router-dom";
 
+const serverURL = "http://localhost:5000/";
+const apiCalls = {
+	trending: serverURL + "youtube/trending",
+	trendingPage: serverURL + "youtube/trending/page",
+	search: serverURL + "youtube/search",
+	searchPage: serverURL + "youtube/search/page",
+	getRecommendations: serverURL + "/youtube/getAllRecommendations",
+};
+
 const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
+	const access_token = sessionStorage.getItem("access_token");
+	const token_type = sessionStorage.getItem("token_type");
+	const name = sessionStorage.getItem("name")
+		? sessionStorage.getItem("name")
+		: "Guest";
+
 	const videoResponse = useRef<VideosResponse_Type>();
 	const videoListKind = useRef<string>("youtube#videoListResponse");
 	const videosList = useRef<VideoElement_Type[]>();
 	const [search, setSearch] = useState<string>("");
 
-	const access_token = localStorage.getItem("access_token");
-	const token_type = localStorage.getItem("token_type");
-	const name = localStorage.getItem("name")
-		? localStorage.getItem("name")
-		: "Guest";
-
 	const [isLoading, setLoading] = useState<boolean>(access_token !== null);
 
-	const serverURL = "http://localhost:5001/";
-	const apiCalls = {
-		trending: serverURL + "youtube/trending",
-		trendingPage: serverURL + "youtube/trending/page",
-		search: serverURL + "youtube/search",
-		searchPage: serverURL + "youtube/search/page",
-	};
-
-	const processVideoResponse = useCallback(() => {
+	const processVideoResponse = () => {
 		if (videoResponse.current?.kind !== videoListKind.current) {
 			videosList.current = [];
 		}
@@ -55,37 +56,34 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 					videoResponse.current.video_list
 				);
 			else videosList.current = videoResponse.current.video_list;
-	}, []);
+	};
 
-	const fetchVideos = useCallback(
-		(callLink?: string, params?: any) => {
-			setLoading(true);
+	const fetchVideos = (callLink?: string, params?: any) => {
+		setLoading(true);
 
-			if (params) {
-				params["access_token"] = access_token;
-				params["token_type"] = token_type;
-			} else {
-				params = {
-					access_token: access_token,
-					token_type: token_type,
-				};
-			}
+		if (params) {
+			params["accessToken"] = access_token;
+			params["tokenType"] = token_type;
+		} else {
+			params = {
+				accessToken: access_token,
+				tokenType: token_type,
+			};
+		}
 
-			axios
-				.get(callLink ? callLink : apiCalls.trending, {
-					params: params,
-				})
-				.then((res) => {
-					videoResponse.current = res.data as VideosResponse_Type;
-					processVideoResponse();
-					setLoading(false);
-				})
-				.catch((err) => console.log(err));
-		},
-		[access_token, apiCalls.trending, token_type, processVideoResponse]
-	);
+		axios
+			.get(callLink ? callLink : apiCalls.trending, {
+				params: params,
+			})
+			.then((res) => {
+				videoResponse.current = res.data as VideosResponse_Type;
+				processVideoResponse();
+				setLoading(false);
+			})
+			.catch((err) => console.log(err));
+	};
 
-	const loadMoreVideos = useCallback(() => {
+	const loadMoreVideos = () => {
 		if (
 			isLoading ||
 			(videosList.current && videosList.current.length > 120)
@@ -94,22 +92,16 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 
 		if (videoListKind.current === "youtube#videoListResponse")
 			fetchVideos(apiCalls.trendingPage, {
-				page_token: videoResponse.current?.nextPageToken,
+				pageToken: videoResponse.current?.nextPageToken,
 			});
 		else if (videoListKind.current === "youtube#searchListResponse")
 			fetchVideos(apiCalls.searchPage, {
-				page_token: videoResponse.current?.nextPageToken,
+				pageToken: videoResponse.current?.nextPageToken,
+				q: search,
 			});
-	}, [
-		apiCalls.searchPage,
-		apiCalls.trendingPage,
-		fetchVideos,
-		isLoading,
-		videoListKind,
-		videosList,
-	]);
+	};
 
-	const handleScroll = useCallback(() => {
+	const handleScroll = () => {
 		const scrollTop = window.scrollY;
 		const scrollHeight = document.documentElement.scrollHeight;
 		const clientHeight = document.documentElement.clientHeight;
@@ -117,12 +109,30 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 		if (scrollTop + clientHeight >= scrollHeight - 50) {
 			loadMoreVideos();
 		}
-	}, [loadMoreVideos]);
+	};
 
 	useEffect(() => {
-		if (access_token) fetchVideos(apiCalls.trending);
+		if (access_token) {
+			fetchVideos(apiCalls.trending);
+			// fetchVideos(apiCalls.trending);
+		}
+
+		// const params = {
+		// 	access_token: access_token,
+		// 	token_type: token_type,
+		// };
+		// axios
+		// 	.post(
+		// 		apiCalls.trending,
+		// 		{ sub: sessionStorage.getItem("sub") },
+		// 		{ params: params }
+		// 	)
+		// 	.then((res) => {
+		// 		console.log(res.data);
+		// 	});
+
 		// eslint-disable-next-line
-	}, [access_token, apiCalls.trending]);
+	}, [access_token]);
 
 	useEffect(() => {
 		window.onscroll = handleScroll;
@@ -263,6 +273,7 @@ const VideoElement = ({
 				tags,
 				topicDetails,
 				publishedAt,
+				channelId,
 			}}
 		>
 			<section className="relative flex flex-col gap-2 p-2 pb-6 items-center group rounded transition cursor-pointer hover:bg-white-transp hover:scale-110">

@@ -7,13 +7,7 @@ const SignOut = ({ navigateAfterSignOut }: SignOut_Props) => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		localStorage.removeItem("email");
-		localStorage.removeItem("name");
-		localStorage.removeItem("picture");
-		localStorage.removeItem("sub");
-		localStorage.removeItem("access_token");
-		localStorage.removeItem("token_type");
-
+		sessionStorage.clear();
 		googleLogout();
 		navigate(navigateAfterSignOut);
 	}, [navigate, navigateAfterSignOut]);

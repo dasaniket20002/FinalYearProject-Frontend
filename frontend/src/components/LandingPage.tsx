@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 
 const LandingPage = ({ LinkToSignUp, LinkToHome }: LandingPage_PropsType) => {
 	const cardsContainer = useRef<HTMLDivElement>(null);
-	const access_token = localStorage.getItem("access_token");
+	const access_token = sessionStorage.getItem("access_token");
 
 	return (
 		<>

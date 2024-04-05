@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import InputField from "./misc/InputField";
+import axios from "axios";
+
+const serverURL = "http://localhost:5000/";
+const userUpdateLink = `${serverURL}users/update`;
 
 const VideoPlayer = () => {
 	const {
@@ -12,9 +16,19 @@ const VideoPlayer = () => {
 		tags,
 		topicDetails,
 		publishedAt,
+		channelId,
 	} = useLocation().state;
 
 	const [chatInput, setChatInput] = useState<string>("");
+
+	useEffect(() => {
+		axios.post(userUpdateLink, {
+			sub: sessionStorage.getItem("sub"),
+			channel: channelId,
+			tags: tags,
+			topics: topicDetails,
+		});
+	}, [tags, topicDetails, channelId]);
 
 	return (
 		<div className="pt-[8rem] min-h-[calc(50vh+6rem)] p-4 md:px-16 grid md:grid-cols-3 gap-8">

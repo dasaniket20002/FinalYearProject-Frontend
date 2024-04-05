@@ -8,13 +8,16 @@ import axios from "axios";
 import { SignIn_Props } from "../ts/Types";
 import LoadingIcon from "./misc/LoadingIcon";
 
+const serverURL = "http://localhost:5000/";
+const signin_link = `${serverURL}users/signin`;
+
 const SignIn = ({ navigateAfterSignIn }: SignIn_Props) => {
 	const navigate = useNavigate();
 
 	const login = useGoogleLogin({
 		onSuccess: (tokenResponse: TokenResponse) => {
-			localStorage.setItem("access_token", tokenResponse.access_token);
-			localStorage.setItem("token_type", tokenResponse.token_type);
+			sessionStorage.setItem("access_token", tokenResponse.access_token);
+			sessionStorage.setItem("token_type", tokenResponse.token_type);
 			console.log(tokenResponse.scope);
 
 			axios
@@ -24,10 +27,12 @@ const SignIn = ({ navigateAfterSignIn }: SignIn_Props) => {
 					},
 				})
 				.then((res) => {
-					localStorage.setItem("email", res.data.email);
-					localStorage.setItem("name", res.data.name);
-					localStorage.setItem("picture", res.data.picture);
-					localStorage.setItem("sub", res.data.sub);
+					sessionStorage.setItem("email", res.data.email);
+					sessionStorage.setItem("name", res.data.name);
+					sessionStorage.setItem("picture", res.data.picture);
+					sessionStorage.setItem("sub", res.data.sub);
+
+					axios.post(signin_link, { sub: res.data.sub });
 				})
 				.catch((err) => console.log(err));
 
