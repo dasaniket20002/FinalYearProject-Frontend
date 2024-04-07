@@ -27,7 +27,7 @@ const VideoPlayer = () => {
 			channel: channelId,
 			tags: tags,
 			topics: topicDetails,
-		});
+		}).then().catch(err => {});
 	}, [tags, topicDetails, channelId]);
 
 	return (
@@ -64,19 +64,19 @@ const VideoPlayer = () => {
 				</section>
 				<section className="grid md:grid-cols-2 gap-8 text-gray-400 font-medium">
 					<span className="bg-white-transp p-10 rounded flex flex-col gap-4">
-						{tags[0] && (
+						{tags && tags[0] && (
 							<p>
 								{"#"}
 								{tags[0].replaceAll(" ", "_")}
 							</p>
 						)}
-						{tags[1] && (
+						{tags && tags[1] && (
 							<p>
 								{"#"}
 								{tags[1].replaceAll(" ", "_")}
 							</p>
 						)}
-						{tags[2] && (
+						{tags && tags[2] && (
 							<p>
 								{"#"}
 								{tags[2].replaceAll(" ", "_")}
