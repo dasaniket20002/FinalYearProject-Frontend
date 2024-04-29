@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import InputField from "./misc/InputField";
 import axios from "axios";
 import LoadingIcon from "./misc/LoadingIcon";
@@ -21,7 +21,7 @@ const apiCalls = {
 	trendingPage: serverURL + "youtube/trending/page",
 	search: serverURL + "youtube/search",
 	searchPage: serverURL + "youtube/search/page",
-	getRecommendations: serverURL + "/youtube/getAllRecommendations",
+	getRecommendations: serverURL + "youtube/getRecommendations",
 };
 
 const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
@@ -30,11 +30,13 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 	const name = sessionStorage.getItem("name")
 		? sessionStorage.getItem("name")
 		: "Guest";
+	const sub = sessionStorage.getItem("sub");
 
 	const videoResponse = useRef<VideosResponse_Type>();
 	const videoListKind = useRef<string>("youtube#videoListResponse");
 	const videosList = useRef<VideoElement_Type[]>();
 	const [search, setSearch] = useState<string>("");
+	const [calledAPI, setCalledAPI] = useState<string>("");
 
 	const [isLoading, setLoading] = useState<boolean>(access_token !== null);
 
@@ -58,6 +60,29 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 			else videosList.current = videoResponse.current.video_list;
 	};
 
+	const searchVideos = (q: string) => {
+		setLoading(true);
+		setCalledAPI("Search");
+
+		const params = {
+			accessToken: access_token,
+			tokenType: token_type,
+			q: q,
+		};
+
+		axios
+			.get(apiCalls.search, {
+				params: params,
+			})
+			.then((res) => {
+				console.log(res.data);
+				videoResponse.current = res.data as VideosResponse_Type;
+				processVideoResponse();
+				setLoading(false);
+			})
+			.catch((err) => console.log(err));
+	};
+
 	const fetchVideos = (callLink?: string, params?: any) => {
 		setLoading(true);
 
@@ -72,10 +97,11 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 		}
 
 		axios
-			.get(callLink ? callLink : apiCalls.trending, {
+			.get(callLink ? callLink : apiCalls.search, {
 				params: params,
 			})
 			.then((res) => {
+				console.log(res.data);
 				videoResponse.current = res.data as VideosResponse_Type;
 				processVideoResponse();
 				setLoading(false);
@@ -86,7 +112,8 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 	const loadMoreVideos = () => {
 		if (
 			isLoading ||
-			(videosList.current && videosList.current.length > 120)
+			(videosList.current && videosList.current.length > 120) ||
+			videoResponse.current?.kind === "api#recommendations"
 		)
 			return;
 
@@ -112,33 +139,73 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 	};
 
 	useEffect(() => {
-		if (access_token) {
-			fetchVideos(apiCalls.trending);
-			// fetchVideos(apiCalls.trending);
+		if (access_token && sub) {
+			setLoading(true);
+			setCalledAPI("Recommendations");
+
+			axios
+				.get(apiCalls.getRecommendations, {
+					params: {
+						accessToken: access_token,
+						tokenType: token_type,
+						sub: sub,
+						debug: true,
+					},
+				})
+				.then((res) => {
+					console.log(res.data);
+					videoResponse.current = res.data as VideosResponse_Type;
+					processVideoResponse();
+					setLoading(false);
+				})
+				.catch((_) => {
+					setCalledAPI("Trending");
+					axios
+						.get(apiCalls.trending, {
+							params: {
+								accessToken: access_token,
+								tokenType: token_type,
+							},
+						})
+						.then((res) => {
+							console.log(res.data);
+							videoResponse.current =
+								res.data as VideosResponse_Type;
+							processVideoResponse();
+							setLoading(false);
+						})
+						.catch((err) => console.log(err));
+				});
+
+			if (videoResponse.current?.video_list?.length === 0) {
+				setLoading(true);
+				setCalledAPI("Trending");
+				axios
+					.get(apiCalls.trending, {
+						params: {
+							accessToken: access_token,
+							tokenType: token_type,
+						},
+					})
+					.then((res) => {
+						console.log(res.data);
+						videoResponse.current = res.data as VideosResponse_Type;
+						processVideoResponse();
+						setLoading(false);
+					})
+					.catch((err) => console.log(err));
+			}
 		}
 
-		// const params = {
-		// 	access_token: access_token,
-		// 	token_type: token_type,
-		// };
-		// axios
-		// 	.post(
-		// 		apiCalls.trending,
-		// 		{ sub: sessionStorage.getItem("sub") },
-		// 		{ params: params }
-		// 	)
-		// 	.then((res) => {
-		// 		console.log(res.data);
-		// 	});
-
 		// eslint-disable-next-line
-	}, [access_token]);
+	}, [access_token, sub]);
 
 	useEffect(() => {
 		window.onscroll = handleScroll;
 		return () => {
 			window.onscroll = null; // Remove listener on cleanup
 		};
+		// eslint-disable-next-line
 	}, [handleScroll]);
 
 	return (
@@ -148,7 +215,7 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 				onSubmit={(e) => {
 					e.preventDefault();
 					videosList.current = [];
-					fetchVideos(apiCalls.search, { q: search });
+					searchVideos(search);
 				}}
 			>
 				<InputField
@@ -166,13 +233,7 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 			</p>
 			<h1 className="px-4 md:px-32 py-1 text-gray-400 font-semibold text-2xl flex items-center">
 				BROWSE&nbsp;•&nbsp;
-				<span className="text-sm font-medium">
-					{videoListKind.current === "youtube#searchListResponse"
-						? "Search"
-						: videoListKind.current === "youtube#videoListResponse"
-						? "Trending"
-						: "Trending"}
-				</span>
+				<span className="text-sm font-medium">{calledAPI}</span>
 			</h1>
 
 			{videosList.current && videosList.current.length !== 0 ? (
@@ -263,7 +324,7 @@ const VideoElement = ({
 }: VideoElement_Type & Home_HomeProps) => {
 	return (
 		<Link
-			to={LinkToVideoPlayer}
+			to={{ pathname: LinkToVideoPlayer }}
 			state={{
 				id,
 				title,

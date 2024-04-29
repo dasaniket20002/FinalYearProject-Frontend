@@ -80,6 +80,10 @@ export type VideosResponse_Type = {
 	nextPageToken?: string;
 	prevPageToken?: string;
 	video_list?: VideoElement_Type[];
+	videos_by_top_tags?: {
+		kind: string;
+		video_list: VideoElement_Type[];
+	};
 };
 export type VideoElement_Type = {
 	channelId: string;
