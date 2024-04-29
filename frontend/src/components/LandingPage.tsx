@@ -32,35 +32,37 @@ const LandingPage = ({ LinkToSignUp, LinkToHome }: LandingPage_PropsType) => {
 			>
 				<CardElement className="flex flex-col gap-8 justify-around">
 					<h1 className="text-4xl md:text-6xl font-bold text-center">
-						Lorem ipsum dolor sit amet.
+						Google Accounts
 					</h1>
 					<hr />
 					<p className="text-xl md:text-2xl font-medium text-center">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit.
-						Velit cupiditate, libero exercitationem tempora corrupti
-						facere!
+						Sign up hassle-free through Google authentication or
+						email, ensuring a quick and secure registration process.
 					</p>
 				</CardElement>
 				<CardElement className="flex flex-col gap-8 justify-around">
 					<h1 className="text-4xl md:text-6xl font-bold text-center">
-						Lorem ipsum dolor sit amet.
+						Recommendation System
 					</h1>
 					<hr />
 					<p className="text-xl md:text-2xl font-medium text-center">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit.
-						Velit cupiditate, libero exercitationem tempora corrupti
-						facere!
+						Discover new and exciting content through our
+						integration with YouTube, which recommends videos from
+						diverse topics based on your interests and viewing
+						history.
 					</p>
 				</CardElement>
 				<CardElement className="flex flex-col gap-8 justify-around">
 					<h1 className="text-4xl md:text-6xl font-bold text-center">
-						Lorem ipsum dolor sit amet.
+						Watch Rooms
 					</h1>
 					<hr />
 					<p className="text-xl md:text-2xl font-medium text-center">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit.
-						Velit cupiditate, libero exercitationem tempora corrupti
-						facere!
+						Engage with other users by creating public watch rooms
+						where you can watch videos together in real-time. Chat
+						in real-time with other users while watching videos in a
+						watch room, fostering a sense of community and enabling
+						lively discussions around the content.
 					</p>
 				</CardElement>
 			</div>
@@ -72,9 +74,9 @@ const LandingPage = ({ LinkToSignUp, LinkToHome }: LandingPage_PropsType) => {
 						</h1>
 						<hr />
 						<p className="text-xl md:text-2xl font-medium text-center">
-							Lorem ipsum dolor sit amet consectetur adipisicing
-							elit. Nostrum placeat, quidem voluptate libero
-							debitis suscipit.
+							Join our growing community of users and embark on a
+							journey of endless entertainment possibilities.
+							Experience the future of streaming today!
 						</p>
 					</span>
 					<Link

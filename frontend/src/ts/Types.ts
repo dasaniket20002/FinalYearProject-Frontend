@@ -40,7 +40,7 @@ export type LogoSVG_PropType = {
 
 export type Navigator_NavProps = {
 	LinkToHome: string;
-	LinkToService: string;
+	LinkToContactUs: string;
 	LinkToAboutUs: string;
 	LinkToSignUp: string;
 	LinkToSignOut: string;
@@ -81,6 +81,10 @@ export type VideosResponse_Type = {
 	prevPageToken?: string;
 	video_list?: VideoElement_Type[];
 	videos_by_top_tags?: {
+		kind: string;
+		video_list: VideoElement_Type[];
+	};
+	videos_by_top_topics?: {
 		kind: string;
 		video_list: VideoElement_Type[];
 	};

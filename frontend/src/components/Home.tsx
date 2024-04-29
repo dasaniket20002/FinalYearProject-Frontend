@@ -155,8 +155,29 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 				.then((res) => {
 					console.log(res.data);
 					videoResponse.current = res.data as VideosResponse_Type;
-					processVideoResponse();
-					setLoading(false);
+
+					if (videoResponse.current?.video_list?.length === 0) {
+						setLoading(true);
+						setCalledAPI("Trending");
+						axios
+							.get(apiCalls.trending, {
+								params: {
+									accessToken: access_token,
+									tokenType: token_type,
+								},
+							})
+							.then((res) => {
+								console.log(res.data);
+								videoResponse.current =
+									res.data as VideosResponse_Type;
+								processVideoResponse();
+								setLoading(false);
+							})
+							.catch((err) => console.log(err));
+					} else {
+						processVideoResponse();
+						setLoading(false);
+					}
 				})
 				.catch((_) => {
 					setCalledAPI("Trending");
@@ -176,25 +197,6 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 						})
 						.catch((err) => console.log(err));
 				});
-
-			if (videoResponse.current?.video_list?.length === 0) {
-				setLoading(true);
-				setCalledAPI("Trending");
-				axios
-					.get(apiCalls.trending, {
-						params: {
-							accessToken: access_token,
-							tokenType: token_type,
-						},
-					})
-					.then((res) => {
-						console.log(res.data);
-						videoResponse.current = res.data as VideosResponse_Type;
-						processVideoResponse();
-						setLoading(false);
-					})
-					.catch((err) => console.log(err));
-			}
 		}
 
 		// eslint-disable-next-line

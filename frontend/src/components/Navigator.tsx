@@ -24,7 +24,7 @@ import {
 const Navigator = ({
 	LinkToHome,
 	LinkToAboutUs,
-	LinkToService,
+	LinkToContactUs,
 	LinkToSignUp,
 	LinkToSignOut,
 }: Navigator_NavProps) => {
@@ -33,12 +33,18 @@ const Navigator = ({
 			<Nav
 				LinkToHome={LinkToHome}
 				LinkToAboutUs={LinkToAboutUs}
-				LinkToService={LinkToService}
+				LinkToContactUs={LinkToContactUs}
 				LinkToSignUp={LinkToSignUp}
 				LinkToSignOut={LinkToSignOut}
 			/>
 			<Outlet />
-			<Footer />
+			<Footer
+				LinkToHome={LinkToHome}
+				LinkToAboutUs={LinkToAboutUs}
+				LinkToContactUs={LinkToContactUs}
+				LinkToSignUp={LinkToSignUp}
+				LinkToSignOut={LinkToSignOut}
+			/>
 		</>
 	);
 };
@@ -46,7 +52,7 @@ const Navigator = ({
 const Nav = ({
 	LinkToHome,
 	LinkToAboutUs,
-	LinkToService,
+	LinkToContactUs,
 	LinkToSignUp,
 	LinkToSignOut,
 }: Navigator_NavProps) => {
@@ -96,12 +102,12 @@ const Nav = ({
 					</Link>
 
 					<Link
-						to={LinkToService}
+						to={LinkToAboutUs}
 						className="group relative flex flex-col justify-center items-center w-full h-full"
 					>
 						<TranslateHoverElement
 							className="h-7"
-							elementInside={<>Services</>}
+							elementInside={<>About&nbsp;Us</>}
 							outerChildUnderlineElement={
 								<span className="absolute bottom-0 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-full" />
 							}
@@ -111,12 +117,12 @@ const Nav = ({
 					<LogoSVG className="place-self-center" />
 
 					<Link
-						to={LinkToAboutUs}
+						to={LinkToContactUs}
 						className="group relative flex flex-col justify-center items-center w-full h-full"
 					>
 						<TranslateHoverElement
 							className="h-7"
-							elementInside={<>About&nbsp;Us</>}
+							elementInside={<>Contact&nbsp;Us</>}
 							outerChildUnderlineElement={
 								<span className="absolute bottom-0 w-0 h-0.5 bg-gray-200 opacity-80 transition-all group-hover:w-full" />
 							}
@@ -195,7 +201,7 @@ const Nav = ({
 								</Link>
 
 								<Link
-									to={LinkToService}
+									to={LinkToContactUs}
 									className="group relative flex flex-col justify-center w-full"
 								>
 									<TranslateHoverElement
@@ -267,7 +273,13 @@ const Nav = ({
 	);
 };
 
-const Footer = () => {
+const Footer = ({
+	LinkToHome,
+	LinkToAboutUs,
+	LinkToContactUs,
+	LinkToSignUp,
+	LinkToSignOut,
+}: Navigator_NavProps) => {
 	return (
 		<>
 			<div className="h-[calc(50vh-6rem)] px-8 pt-8">
@@ -283,7 +295,7 @@ const Footer = () => {
 						<div className="flex gap-2 md:gap-16 p-2 md:p-0 items-center justify-center col-start-2 col-span-2">
 							<section className="grid grid-rows-3 gap-3">
 								<Link
-									to={"/"}
+									to={LinkToHome}
 									className="group relative flex flex-col justify-center w-min"
 								>
 									<TranslateHoverElement
@@ -295,7 +307,7 @@ const Footer = () => {
 									/>
 								</Link>
 								<Link
-									to={"/"}
+									to={LinkToHome}
 									className="group relative flex flex-col justify-center w-min"
 								>
 									<TranslateHoverElement
@@ -307,7 +319,7 @@ const Footer = () => {
 									/>
 								</Link>
 								<Link
-									to={"/"}
+									to={LinkToContactUs}
 									className="group relative flex flex-col justify-center w-min"
 								>
 									<TranslateHoverElement
@@ -323,7 +335,7 @@ const Footer = () => {
 							</section>
 							<section className="grid grid-rows-3 gap-3">
 								<Link
-									to={"/"}
+									to={LinkToContactUs}
 									className="group relative flex flex-col justify-center w-min"
 								>
 									<TranslateHoverElement
@@ -337,7 +349,7 @@ const Footer = () => {
 									/>
 								</Link>
 								<Link
-									to={"/"}
+									to={LinkToContactUs}
 									className="group relative flex flex-col justify-center w-min"
 								>
 									<TranslateHoverElement

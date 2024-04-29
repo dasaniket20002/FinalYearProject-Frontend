@@ -3,7 +3,6 @@ import "./App.css";
 import Navigator from "./components/Navigator";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
-import Services from "./components/Services";
 import AboutUs from "./components/AboutUs";
 import SignIn from "./components/SignIn";
 import LandingPage from "./components/LandingPage";
@@ -13,12 +12,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import SignOut from "./components/SignOut";
 import VideoPlayer from "./components/VideoPlayer";
+import ContactUs from "./components/ContactUs";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const root = "/";
 const LinkToHome = "home";
-const LinkToService = "services";
+const LinkToContactUs = "contactus";
 const LinkToAboutUs = "aboutus";
 const LinkToSignUp = "signup";
 const LinkToSignOut = "signout";
@@ -64,7 +64,7 @@ function App() {
 						element={
 							<Navigator
 								LinkToHome={LinkToHome}
-								LinkToService={LinkToService}
+								LinkToContactUs={LinkToContactUs}
 								LinkToAboutUs={LinkToAboutUs}
 								LinkToSignUp={LinkToSignUp}
 								LinkToSignOut={LinkToSignOut}
@@ -87,7 +87,7 @@ function App() {
 							}
 						/>
 
-						<Route path={LinkToService} element={<Services />} />
+						<Route path={LinkToContactUs} element={<ContactUs />} />
 						<Route path={LinkToAboutUs} element={<AboutUs />} />
 						<Route
 							path={`${LinkToHome}/${LinkToVideoPlayer}`}
