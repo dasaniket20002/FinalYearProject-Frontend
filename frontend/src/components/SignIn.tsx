@@ -33,15 +33,15 @@ const SignIn = ({ navigateAfterSignIn }: SignIn_Props) => {
 					sessionStorage.setItem("sub", res.data.sub);
 
 					axios.post(signin_link, { sub: res.data.sub });
+
+					navigate(`/${navigateAfterSignIn}`, {
+						state: {
+							access_token: tokenResponse.access_token,
+							token_type: tokenResponse.token_type,
+						},
+					});
 				})
 				.catch((err) => console.log(err));
-
-			navigate(`/${navigateAfterSignIn}`, {
-				state: {
-					access_token: tokenResponse.access_token,
-					token_type: tokenResponse.token_type,
-				},
-			});
 		},
 		onError: (
 			tokenResponse: Pick<

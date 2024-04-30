@@ -4,7 +4,11 @@ import axios from "axios";
 import LoadingIcon from "./misc/LoadingIcon";
 import TranslateHoverElement from "./misc/TranslateHoverElement";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
+import {
+	faArrowTrendUp,
+	faHandHoldingHeart,
+	faRotateRight,
+} from "@fortawesome/free-solid-svg-icons";
 import {
 	Home_HomeProps,
 	MandatoryParameterlessFunction,
@@ -25,20 +29,15 @@ const apiCalls = {
 };
 
 const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
-	const access_token = sessionStorage.getItem("access_token");
-	const token_type = sessionStorage.getItem("token_type");
-	const name = sessionStorage.getItem("name")
-		? sessionStorage.getItem("name")
-		: "Guest";
-	const sub = sessionStorage.getItem("sub");
-
 	const videoResponse = useRef<VideosResponse_Type>();
 	const videoListKind = useRef<string>("youtube#videoListResponse");
 	const videosList = useRef<VideoElement_Type[]>();
 	const [search, setSearch] = useState<string>("");
 	const [calledAPI, setCalledAPI] = useState<string>("");
 
-	const [isLoading, setLoading] = useState<boolean>(access_token !== null);
+	const [isLoading, setLoading] = useState<boolean>(
+		sessionStorage.getItem("access_token") !== null
+	);
 
 	const processVideoResponse = () => {
 		if (videoResponse.current?.kind !== videoListKind.current) {
@@ -65,8 +64,8 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 		setCalledAPI("Search");
 
 		const params = {
-			accessToken: access_token,
-			tokenType: token_type,
+			accessToken: sessionStorage.getItem("access_token"),
+			tokenType: sessionStorage.getItem("token_type"),
 			q: q,
 		};
 
@@ -85,19 +84,23 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 
 	const fetchVideos = (callLink?: string, params?: any) => {
 		setLoading(true);
+		if (callLink === apiCalls.trending) setCalledAPI("Trending");
+		if (callLink === apiCalls.search) setCalledAPI("Search");
+		if (callLink === apiCalls.getRecommendations)
+			setCalledAPI("Recommendations");
 
 		if (params) {
-			params["accessToken"] = access_token;
-			params["tokenType"] = token_type;
+			params["accessToken"] = sessionStorage.getItem("access_token");
+			params["tokenType"] = sessionStorage.getItem("token_type");
 		} else {
 			params = {
-				accessToken: access_token,
-				tokenType: token_type,
+				accessToken: sessionStorage.getItem("access_token"),
+				tokenType: sessionStorage.getItem("token_type"),
 			};
 		}
 
 		axios
-			.get(callLink ? callLink : apiCalls.search, {
+			.get(callLink ? callLink : apiCalls.trending, {
 				params: params,
 			})
 			.then((res) => {
@@ -139,16 +142,19 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 	};
 
 	useEffect(() => {
-		if (access_token && sub) {
+		if (
+			sessionStorage.getItem("access_token") &&
+			sessionStorage.getItem("sub")
+		) {
 			setLoading(true);
 			setCalledAPI("Recommendations");
 
 			axios
 				.get(apiCalls.getRecommendations, {
 					params: {
-						accessToken: access_token,
-						tokenType: token_type,
-						sub: sub,
+						accessToken: sessionStorage.getItem("access_token"),
+						tokenType: sessionStorage.getItem("token_type"),
+						sub: sessionStorage.getItem("sub"),
 						debug: true,
 					},
 				})
@@ -162,8 +168,10 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 						axios
 							.get(apiCalls.trending, {
 								params: {
-									accessToken: access_token,
-									tokenType: token_type,
+									accessToken:
+										sessionStorage.getItem("access_token"),
+									tokenType:
+										sessionStorage.getItem("token_type"),
 								},
 							})
 							.then((res) => {
@@ -184,8 +192,9 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 					axios
 						.get(apiCalls.trending, {
 							params: {
-								accessToken: access_token,
-								tokenType: token_type,
+								accessToken:
+									sessionStorage.getItem("access_token"),
+								tokenType: sessionStorage.getItem("token_type"),
 							},
 						})
 						.then((res) => {
@@ -200,7 +209,7 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 		}
 
 		// eslint-disable-next-line
-	}, [access_token, sub]);
+	}, [sessionStorage.getItem("access_token"), sessionStorage.getItem("sub")]);
 
 	useEffect(() => {
 		window.onscroll = handleScroll;
@@ -230,13 +239,69 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 				/>
 			</form>
 
-			<p className="px-4 md:px-32 py-1 text-gray-500 text-xl">
-				Hi <span className="font-dancing-script">{name}!</span>
-			</p>
-			<h1 className="px-4 md:px-32 py-1 text-gray-400 font-semibold text-2xl flex items-center">
-				BROWSE&nbsp;•&nbsp;
-				<span className="text-sm font-medium">{calledAPI}</span>
-			</h1>
+			<section className="px-4 md:px-32 py-1 flex flex-col md:flex-row md:justify-between md:items-center">
+				<span>
+					<p className="text-gray-500 text-xl">
+						Hi{" "}
+						<span className="font-dancing-script">
+							{sessionStorage.getItem("name")
+								? sessionStorage.getItem("name")
+								: "Guest"}
+							!
+						</span>
+					</p>
+					<h1 className="text-gray-400 font-semibold text-2xl flex items-center">
+						BROWSE&nbsp;•&nbsp;
+						<span className="text-sm font-medium">{calledAPI}</span>
+					</h1>
+				</span>
+
+				<span className="flex gap-4 py-2">
+					<button
+						className="group px-6 py-2 border border-white-transp rounded transition hover:border-amber-600 hover:text-amber-600"
+						onClick={(e) => {
+							e.preventDefault();
+							videosList.current = [];
+							fetchVideos(apiCalls.getRecommendations, {
+								sub: sessionStorage.getItem("sub"),
+								debug: true,
+							});
+						}}
+					>
+						<TranslateHoverElement
+							className="h-6"
+							elementInsideClassname="gap-3"
+							elementInside={
+								<>
+									<FontAwesomeIcon
+										icon={faHandHoldingHeart}
+									/>
+									Recommendations
+								</>
+							}
+						/>
+					</button>
+					<button
+						className="group px-6 py-2 border border-white-transp rounded transition hover:border-amber-600 hover:text-amber-600"
+						onClick={(e) => {
+							e.preventDefault();
+							videosList.current = [];
+							fetchVideos(apiCalls.trending);
+						}}
+					>
+						<TranslateHoverElement
+							className="h-6"
+							elementInsideClassname="gap-3"
+							elementInside={
+								<>
+									<FontAwesomeIcon icon={faArrowTrendUp} />
+									Trending
+								</>
+							}
+						/>
+					</button>
+				</span>
+			</section>
 
 			{videosList.current && videosList.current.length !== 0 ? (
 				<VideoBrowser
@@ -244,7 +309,9 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 					LinkToVideoPlayer={LinkToVideoPlayer}
 				/>
 			) : (
-				access_token === null && <TryFetchAgain method={fetchVideos} />
+				sessionStorage.getItem("access_token") === null && (
+					<TryFetchAgain method={fetchVideos} />
+				)
 			)}
 
 			{isLoading && <LoadingIcon className="text-9xl" />}

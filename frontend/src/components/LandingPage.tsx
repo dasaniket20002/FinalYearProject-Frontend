@@ -31,7 +31,7 @@ const LandingPage = ({ LinkToSignUp, LinkToHome }: LandingPage_PropsType) => {
 				className="py-[6rem] min-h-screen px-16 min-[1900px]:px-48 grid grid-rows-3 xl:grid-rows-1 xl:grid-cols-3 gap-8 md:gap-16"
 			>
 				<CardElement className="flex flex-col gap-8 justify-around">
-					<h1 className="text-4xl md:text-6xl font-bold text-center">
+					<h1 className="text-4xl md:text-4xl font-bold text-center">
 						Google Accounts
 					</h1>
 					<hr />
@@ -41,7 +41,7 @@ const LandingPage = ({ LinkToSignUp, LinkToHome }: LandingPage_PropsType) => {
 					</p>
 				</CardElement>
 				<CardElement className="flex flex-col gap-8 justify-around">
-					<h1 className="text-4xl md:text-6xl font-bold text-center">
+					<h1 className="text-3xl md:text-4xl font-bold text-center">
 						Recommendation System
 					</h1>
 					<hr />
@@ -53,7 +53,7 @@ const LandingPage = ({ LinkToSignUp, LinkToHome }: LandingPage_PropsType) => {
 					</p>
 				</CardElement>
 				<CardElement className="flex flex-col gap-8 justify-around">
-					<h1 className="text-4xl md:text-6xl font-bold text-center">
+					<h1 className="text-4xl md:text-4xl font-bold text-center">
 						Watch Rooms
 					</h1>
 					<hr />
