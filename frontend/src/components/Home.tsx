@@ -155,14 +155,17 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 						accessToken: sessionStorage.getItem("access_token"),
 						tokenType: sessionStorage.getItem("token_type"),
 						sub: sessionStorage.getItem("sub"),
-						debug: true,
+						// debug: true,
 					},
 				})
 				.then((res) => {
 					console.log(res.data);
 					videoResponse.current = res.data as VideosResponse_Type;
 
-					if (videoResponse.current?.video_list?.length === 0) {
+					if (
+						videoResponse.current?.video_list === undefined ||
+						videoResponse.current?.video_list?.length === 0
+					) {
 						setLoading(true);
 						setCalledAPI("Trending");
 						axios

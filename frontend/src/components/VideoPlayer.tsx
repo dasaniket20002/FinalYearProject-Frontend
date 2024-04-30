@@ -22,12 +22,21 @@ const VideoPlayer = () => {
 	const [chatInput, setChatInput] = useState<string>("");
 
 	useEffect(() => {
-		axios.post(userUpdateLink, {
-			sub: sessionStorage.getItem("sub"),
-			channel: channelId,
-			tags: tags,
-			topics: topicDetails,
-		}).then().catch(err => {});
+		axios
+			.post(userUpdateLink, {
+				sub: sessionStorage.getItem("sub"),
+				channel: channelId,
+				tags: tags,
+				topics: topicDetails
+					? (topicDetails as string[]).map((topicDetail) => {
+							if (topicDetail.length > 30)
+								return topicDetail.substring(30);
+							return topicDetail;
+					  })
+					: topicDetails,
+			})
+			.then()
+			.catch((err) => {});
 	}, [tags, topicDetails, channelId]);
 
 	return (
@@ -86,7 +95,11 @@ const VideoPlayer = () => {
 					<span className="bg-white-transp p-10 rounded flex items-center">
 						{topicDetails[0] && (
 							<p className="capitalize">
-								{topicDetails[0].replaceAll("_", " ")}
+								{topicDetails[0].length > 30
+									? topicDetails[0]
+											.replaceAll("_", " ")
+											.substring(30)
+									: topicDetails[0].replaceAll("_", " ")}
 							</p>
 						)}
 					</span>
