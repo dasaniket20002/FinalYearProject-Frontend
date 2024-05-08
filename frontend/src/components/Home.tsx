@@ -6,6 +6,7 @@ import TranslateHoverElement from "./misc/TranslateHoverElement";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faArrowTrendUp,
+	faDisplay,
 	faHandHoldingHeart,
 	faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
@@ -17,7 +18,7 @@ import {
 	VideosResponse_Type,
 } from "../ts/Types";
 import { checkSubsetForVideos, convertYTDuration } from "../ts/Utils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const serverURL = "http://localhost:5000/";
 const apiCalls = {
@@ -29,6 +30,8 @@ const apiCalls = {
 };
 
 const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
+	const navigate = useNavigate();
+
 	const videoResponse = useRef<VideosResponse_Type>();
 	const videoListKind = useRef<string>("youtube#videoListResponse");
 	const videosList = useRef<VideoElement_Type[]>();
@@ -242,7 +245,7 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 				/>
 			</form>
 
-			<section className="px-4 md:px-32 py-1 flex flex-col md:flex-row md:justify-between md:items-center">
+			<section className="px-4 md:px-32 py-1 flex flex-col lg:flex-row lg:justify-between lg:items-center">
 				<span>
 					<p className="text-gray-500 text-xl">
 						Hi{" "}
@@ -267,7 +270,7 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 							videosList.current = [];
 							fetchVideos(apiCalls.getRecommendations, {
 								sub: sessionStorage.getItem("sub"),
-								debug: true,
+								// debug: true,
 							});
 						}}
 					>
@@ -299,6 +302,23 @@ const Home = ({ LinkToVideoPlayer }: Home_HomeProps) => {
 								<>
 									<FontAwesomeIcon icon={faArrowTrendUp} />
 									Trending
+								</>
+							}
+						/>
+					</button>
+					<button
+						className="group px-6 py-2 border border-white-transp rounded transition hover:border-amber-600 hover:text-amber-600"
+						onClick={(e) => {
+							navigate("/home/videoplayer");
+						}}
+					>
+						<TranslateHoverElement
+							className="h-6"
+							elementInsideClassname="gap-3"
+							elementInside={
+								<>
+									<FontAwesomeIcon icon={faDisplay} />
+									Watch&nbsp;Together
 								</>
 							}
 						/>
@@ -398,29 +418,29 @@ const VideoElement = ({
 		<Link
 			to={{ pathname: LinkToVideoPlayer }}
 			state={{
-				id,
-				title,
-				description,
-				channelTitle,
-				channelThumbnail,
-				tags,
-				topicDetails,
-				publishedAt,
-				channelId,
+				s_id: id,
+				s_title: title,
+				s_description: description,
+				s_channelTitle: channelTitle,
+				s_channelThumbnail: channelThumbnail,
+				s_tags: tags,
+				s_topicDetails: topicDetails,
+				s_publishedAt: publishedAt,
+				s_channelId: channelId,
 			}}
 		>
 			<section className="relative flex flex-col gap-2 p-2 pb-6 items-center group rounded transition cursor-pointer hover:bg-white-transp hover:scale-110">
 				<section className="relative rounded aspect-video overflow-hidden">
 					<img
 						className="w-96 -my-[10%] scale-105"
-						src={thumbnail.url}
+						src={thumbnail?.url}
 						alt=""
 					/>
 					<p className="absolute uppercase text-white text-xs font-bold bottom-2 left-2 py-1 px-2 bg-blur-transp rounded">
 						{definition}
 					</p>
 					<p className="absolute text-white text-xs font-bold bottom-2 right-2 py-1 px-2 bg-blur-transp rounded">
-						{convertYTDuration(duration)}
+						{duration && convertYTDuration(duration)}
 					</p>
 				</section>
 				<h1 className="relative font-medium line-clamp-2 w-full px-2 py-1 rounded transition group-hover:bg-white-transp">
